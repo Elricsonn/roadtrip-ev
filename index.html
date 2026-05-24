@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Road Trip EV</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+    <div class="header-row">
+        <h1>🚗⚡ <span class="brand-light">Road Trip</span></h1>
+        <button id="exportBtn" class="header-action" title="Exporter JSON">📤</button>
+    </div>
+    <nav class="trip-tabs" id="tripTabs"></nav>
+</header>
+
+<main class="content">
+
+    <!-- KPIs en haut, recalculés à chaque saisie -->
+    <section class="kpi-band" id="kpiBand">
+        <div class="kpi">
+            <div class="kpi-label">Conso moy.</div>
+            <div class="kpi-value" id="kpiConso">— kWh/100</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Autonomie</div>
+            <div class="kpi-value" id="kpiAutonomie">— km</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Écart théorique</div>
+            <div class="kpi-value" id="kpiEcart">—</div>
+        </div>
+    </section>
+
+    <h2 class="trip-title" id="tripTitle"></h2>
+    <p class="trip-subtitle" id="tripSubtitle"></p>
+
+    <!-- Liste des étapes pour le trajet sélectionné -->
+    <div class="etapes" id="etapes"></div>
+
+    <div class="footer-actions">
+        <button id="resetTripBtn" class="btn-secondary">🗑 Réinitialiser ce trajet</button>
+        <button id="resetAllBtn" class="btn-secondary">🧹 Tout réinitialiser</button>
+    </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

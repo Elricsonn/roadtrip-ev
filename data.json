@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "source": "Rocamadour Lourdes 2026 - Itinéraire - 2026-05-23.xlsx",
+  "voyage": {
+    "nom": "Road Trip EV — Monaco / Rocamadour / Lourdes / Rians",
+    "voiture": "Smart #3 Brabus",
+    "dates": "Juin 2026"
+  },
+  "voiture": {
+    "modele": "Smart #3 Brabus",
+    "capacite_utile_kwh": 62,
+    "conso_theorique_kwh_par_km": 0.205
+  },
+  "trajets": [
+    {
+      "id": "j1",
+      "titre": "Jour 1 — Monaco → Narbonne",
+      "sous_titre": "Novotel Narbonne Sud",
+      "feuille_excel": "Monaco-->Narbonne",
+      "etapes": [
+        {
+          "lieu": "Monaco",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "10h00",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire de Cambarette Nord",
+          "distance_prevue": 147,
+          "duree_prevue": "1h30",
+          "cumul_prevu": 147,
+          "heure_arrivee_prevue": "11h30",
+          "charge_arrivee_prevue": 0.5139516129032258,
+          "action": "Déjeuner + ⚡",
+          "duree_action_prevue": "1h00",
+          "heure_depart_prevue": "12h30",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire d'Ambrussum Nord A9",
+          "distance_prevue": 173,
+          "duree_prevue": "1h41",
+          "cumul_prevu": 320,
+          "heure_arrivee_prevue": "14h11",
+          "charge_arrivee_prevue": 0.42798387096774204,
+          "action": "⚡",
+          "duree_action_prevue": "0h20",
+          "heure_depart_prevue": "14h31",
+          "charge_depart_prevue": 0.8
+        },
+        {
+          "lieu": "Novotel Narbonne Sud A9/A61",
+          "distance_prevue": 118,
+          "duree_prevue": "1h10",
+          "cumul_prevu": 438,
+          "heure_arrivee_prevue": "15h41",
+          "charge_arrivee_prevue": 0.4098387096774194,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": null
+        }
+      ]
+    },
+    {
+      "id": "j2",
+      "titre": "Jour 2 — Narbonne → Rocamadour",
+      "sous_titre": "Hôtel les Vieilles Tours",
+      "feuille_excel": "Narbonne-->Rocamadour",
+      "etapes": [
+        {
+          "lieu": "Novotel Narbonne Sud A9/A61",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "10h00",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire de Port- Lauragais Nord",
+          "distance_prevue": 115,
+          "duree_prevue": "1h00",
+          "cumul_prevu": 115,
+          "heure_arrivee_prevue": "11h00",
+          "charge_arrivee_prevue": 0.619758064516129,
+          "action": "⚡",
+          "duree_action_prevue": "0h20",
+          "heure_depart_prevue": "11h20",
+          "charge_depart_prevue": 0.8
+        },
+        {
+          "lieu": "Aire du Jardin des Causses",
+          "distance_prevue": 178,
+          "duree_prevue": "1h50",
+          "cumul_prevu": 293,
+          "heure_arrivee_prevue": "13h10",
+          "charge_arrivee_prevue": 0.2114516129032259,
+          "action": "Repas + ⚡",
+          "duree_action_prevue": "1h00",
+          "heure_depart_prevue": "14h10",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Hôtel les Vieilles Tours Lafage, Rocamadour",
+          "distance_prevue": 30,
+          "duree_prevue": "0h40",
+          "cumul_prevu": 323,
+          "heure_arrivee_prevue": "14h50",
+          "charge_arrivee_prevue": 0.9008064516129033,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": null
+        }
+      ]
+    },
+    {
+      "id": "j3",
+      "titre": "Jour 3 — Rocamadour → Lourdes",
+      "sous_titre": "Belfry & Spa (3 nuits)",
+      "feuille_excel": "Rocamadour-->Lourdes",
+      "etapes": [
+        {
+          "lieu": "Hôtel les Vieilles Tours Lafage, Rocamadour",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "9h00",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire de Toulouse- Sud (Muret)",
+          "distance_prevue": 161,
+          "duree_prevue": "1h40",
+          "cumul_prevu": 161,
+          "heure_arrivee_prevue": "10h40",
+          "charge_arrivee_prevue": 0.46766129032258075,
+          "action": "Déjeuner + ⚡",
+          "duree_action_prevue": "0h45",
+          "heure_depart_prevue": "11h25",
+          "charge_depart_prevue": 0.9
+        },
+        {
+          "lieu": "Aire de Capvern",
+          "distance_prevue": 120,
+          "duree_prevue": "1h15",
+          "cumul_prevu": 281,
+          "heure_arrivee_prevue": "12h40",
+          "charge_arrivee_prevue": 0.503225806451613,
+          "action": "⚡",
+          "duree_action_prevue": "0h20",
+          "heure_depart_prevue": "13h00",
+          "charge_depart_prevue": 0.8
+        },
+        {
+          "lieu": "Belfry & Spa by Ligne St Barth",
+          "distance_prevue": 51,
+          "duree_prevue": "0h40",
+          "cumul_prevu": 332,
+          "heure_arrivee_prevue": "13h40",
+          "charge_arrivee_prevue": 0.6313709677419355,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": null
+        }
+      ]
+    },
+    {
+      "id": "j4",
+      "titre": "Jour 4 — Lourdes → Rians",
+      "sous_titre": "La Margottière (Isa & Titi)",
+      "feuille_excel": "Lourdes-->Rians",
+      "etapes": [
+        {
+          "lieu": "Belfry & Spa by Ligne St Barth",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "10h00",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire du Comminges A64",
+          "distance_prevue": 79,
+          "duree_prevue": "0h52",
+          "cumul_prevu": 79,
+          "heure_arrivee_prevue": "10h52",
+          "charge_arrivee_prevue": 0.7387903225806451,
+          "action": "⚡",
+          "duree_action_prevue": "0h30",
+          "heure_depart_prevue": "11h22",
+          "charge_depart_prevue": 0.9
+        },
+        {
+          "lieu": "Aire de Port- Lauragais Sud",
+          "distance_prevue": 136,
+          "duree_prevue": "1h15",
+          "cumul_prevu": 215,
+          "heure_arrivee_prevue": "12h37",
+          "charge_arrivee_prevue": 0.45032258064516134,
+          "action": "Déjeuner + ⚡",
+          "duree_action_prevue": "1h00",
+          "heure_depart_prevue": "13h37",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire de Narbonne Vinassan Sud",
+          "distance_prevue": 116,
+          "duree_prevue": "1h00",
+          "cumul_prevu": 331,
+          "heure_arrivee_prevue": "14h37",
+          "charge_arrivee_prevue": 0.6164516129032258,
+          "action": "⚡",
+          "duree_action_prevue": "1h00",
+          "heure_depart_prevue": "15h37",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Aire de Lançon- de-Provence",
+          "distance_prevue": 205,
+          "duree_prevue": "1h55",
+          "cumul_prevu": 536,
+          "heure_arrivee_prevue": "17h32",
+          "charge_arrivee_prevue": 0.3221774193548387,
+          "action": "Goûter + ⚡",
+          "duree_action_prevue": "0h35",
+          "heure_depart_prevue": "18h07",
+          "charge_depart_prevue": 0.8
+        },
+        {
+          "lieu": "La Margottière chez Isa et Titi",
+          "distance_prevue": 80,
+          "duree_prevue": "1h00",
+          "cumul_prevu": 616,
+          "heure_arrivee_prevue": "19h07",
+          "charge_arrivee_prevue": 0.5354838709677421,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": null
+        }
+      ]
+    },
+    {
+      "id": "j5",
+      "titre": "Jour 5 — Rians → Monaco",
+      "sous_titre": "Retour Monaco",
+      "feuille_excel": "Rians-->Monaco",
+      "etapes": [
+        {
+          "lieu": "La Margottière chez Isa et Titi",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "21h00",
+          "charge_depart_prevue": 1
+        },
+        {
+          "lieu": "Monaco",
+          "distance_prevue": 185,
+          "duree_prevue": "2h10",
+          "cumul_prevu": 185,
+          "heure_arrivee_prevue": "23h10",
+          "charge_arrivee_prevue": 0.3883064516129032,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": null
+        }
+      ]
+    },
+    {
+      "id": "ref",
+      "titre": "Référence — Monaco ↔ Draguignan",
+      "sous_titre": "Conso réelle mesurée",
+      "feuille_excel": "Monaco-->Draguignan-->Monaco",
+      "etapes": [
+        {
+          "lieu": "Monaco",
+          "distance_prevue": 0,
+          "duree_prevue": "—",
+          "cumul_prevu": 0,
+          "heure_arrivee_prevue": "—",
+          "charge_arrivee_prevue": "—",
+          "action": "Départ",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "15h00",
+          "charge_depart_prevue": 0.98
+        },
+        {
+          "lieu": "Draguignan",
+          "distance_prevue": 109,
+          "duree_prevue": "1h15",
+          "cumul_prevu": 109,
+          "heure_arrivee_prevue": "16h15",
+          "charge_arrivee_prevue": 0.58,
+          "action": "Activité",
+          "duree_action_prevue": "3h00",
+          "heure_depart_prevue": "19h15",
+          "charge_depart_prevue": 0.58
+        },
+        {
+          "lieu": "Monaco",
+          "distance_prevue": 111,
+          "duree_prevue": "1h18",
+          "cumul_prevu": 220,
+          "heure_arrivee_prevue": "20h33",
+          "charge_arrivee_prevue": 0.16,
+          "action": "Fin de trajet",
+          "duree_action_prevue": "—",
+          "heure_depart_prevue": "—",
+          "charge_depart_prevue": "—"
+        }
+      ]
+    }
+  ]
+}
