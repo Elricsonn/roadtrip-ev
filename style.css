@@ -165,10 +165,18 @@ html, body {
 
 .etape-head {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 0.6rem;
+}
+
+.etape-lieu-wrap {
+    flex: 1;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.4rem;
 }
 
 .etape-lieu {
@@ -185,6 +193,94 @@ html, body {
     padding: 0.15rem 0.45rem;
     border-radius: 10px;
     white-space: nowrap;
+}
+
+.etape-badge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.etape-actions {
+    display: flex;
+    gap: 0.3rem;
+    flex-shrink: 0;
+}
+
+.etape-action-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+
+.etape-action-btn:active,
+.etape-action-btn.active {
+    background: var(--bg-card);
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Étape sautée */
+.etape.skipped {
+    opacity: 0.45;
+    background: var(--bg-elev);
+}
+
+.etape.skipped .etape-lieu {
+    text-decoration: line-through;
+}
+
+.etape-skipped-note {
+    color: var(--warn);
+    font-size: 0.78rem;
+    font-style: italic;
+    margin-top: 0.2rem;
+}
+
+/* Étape intercalée (custom) */
+.etape-custom {
+    border-color: var(--accent);
+    border-style: dashed;
+    background: linear-gradient(180deg, rgba(244,208,63,0.04), transparent);
+}
+
+/* Bouton "+ Intercaler" entre étapes */
+.insert-row {
+    display: flex;
+    justify-content: center;
+    margin: -0.2rem 0;
+}
+
+.insert-btn {
+    background: transparent;
+    border: 1px dashed var(--border);
+    color: var(--text-faint);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.insert-btn:active {
+    color: var(--accent);
+    border-color: var(--accent);
 }
 
 .etape-grid {
@@ -239,6 +335,125 @@ html, body {
 /* Champ qui s'étend sur toute la largeur (heures à l'écart) */
 .field-wide {
     grid-column: 1 / -1;
+}
+
+.field-wide.separator {
+    border-top: 1px dashed var(--border);
+    margin: 0.3rem 0;
+}
+
+/* Valeur dérivée (durée trajet/action calculée des heures saisies) */
+.field-derived {
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-style: italic;
+}
+
+/* === Vue Synthèse === */
+.synth-block {
+    margin-bottom: 1.2rem;
+}
+
+.block-title {
+    margin: 0.2rem 0 0.5rem 0;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.synth-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.4rem 0.5rem;
+}
+
+.synth-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.synth-table th,
+.synth-table td {
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--text);
+}
+
+.synth-table th {
+    color: var(--text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+}
+
+.synth-table .row-label {
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: 500;
+    padding-right: 0.8rem;
+}
+
+.synth-table .row-label-dim {
+    color: var(--text-faint);
+    font-size: 0.74rem;
+}
+
+.synth-table .total-col {
+    color: var(--accent);
+    font-weight: 600;
+    border-left: 1px solid var(--border);
+}
+
+/* Inputs coûts dans la table */
+.costs-table td input {
+    width: 5.2rem;
+    background: rgba(255,154,60,0.08);
+    border: 1px solid rgba(255,154,60,0.25);
+    color: var(--reel);
+    padding: 0.3rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.costs-table td input:focus {
+    outline: none;
+    border-color: var(--reel);
+    background: rgba(255,154,60,0.15);
+}
+
+.costs-table .cost-total-row {
+    border-top: 1px solid var(--border);
+    background: rgba(244,208,63,0.04);
+}
+
+.costs-table .cost-total-row td {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.costs-table .cost-day-total {
+    color: var(--accent);
+}
+
+.costs-table .cost-grand-total {
+    color: var(--accent);
+    font-size: 0.85rem;
 }
 
 /* === Footer actions === */

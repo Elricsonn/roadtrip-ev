@@ -1,134 +1,429 @@
-// === Road Trip EV — logique principale ===
-// Charge data.json (prévisions), gère la saisie des "réels" en LocalStorage,
-// calcule les KPIs en live, exporte les données saisies en JSON pour ré-injection
-// dans le classeur Excel au retour.
+// === Road Trip EV v2 — logique principale ===
+// Aligné sur le classeur Excel v3 (Synthèse transposée, conso paramétrable par jour,
+// coûts Péages/Recharges/Total). L7 et L16 dérivées des heures saisies.
+// Étapes : skip (toggle) + insertion d'étapes custom (recharge imprévue, pause…).
 
-const STORAGE_KEY = 'roadtrip-ev-v1';
-const STATE = { data: null, currentTripId: null, reels: {} };
+const STORAGE_KEY = 'roadtrip-ev-v2';
+const STATE = {
+    data: null,
+    currentTabId: null,
+    reels: {},     // reels[tripId][key]{field}  — key = "0".."n" pour base, "c-…" pour custom
+    costs: {},     // costs[dayIdx]{peages|recharges}
+    skipped: {},   // skipped[tripId][key] = true
+    customs: {},   // customs[tripId] = [{ id, after, lieu, action }]
+};
 
 // === Chargement initial ===
-fetch('data.json').then(r => r.json()).then(data => {
+fetch('data.json?v=' + Date.now()).then(r => r.json()).then(data => {
     STATE.data = data;
-    STATE.reels = loadReels();
-    STATE.currentTripId = data.trajets[0].id;
+    const persisted = loadStore();
+    STATE.reels   = persisted.reels   || {};
+    STATE.costs   = persisted.costs   || {};
+    STATE.skipped = persisted.skipped || {};
+    STATE.customs = persisted.customs || {};
+    STATE.currentTabId = 'synthese';
     renderTabs();
-    renderTrip();
+    renderCurrent();
     bindFooter();
 });
 
 // === LocalStorage ===
-function loadReels() {
-    try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    } catch (e) { return {}; }
+function loadStore() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
 }
-
-function saveReels() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE.reels));
+function saveStore() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        reels: STATE.reels, costs: STATE.costs,
+        skipped: STATE.skipped, customs: STATE.customs,
+    }));
 }
-
-function getReel(tripId, etapeIdx, field) {
-    return STATE.reels?.[tripId]?.[etapeIdx]?.[field] ?? '';
+function getReel(tripId, key, field) {
+    return STATE.reels?.[tripId]?.[key]?.[field] ?? '';
 }
-
-function setReel(tripId, etapeIdx, field, value) {
+function setReel(tripId, key, field, value) {
     if (!STATE.reels[tripId]) STATE.reels[tripId] = {};
-    if (!STATE.reels[tripId][etapeIdx]) STATE.reels[tripId][etapeIdx] = {};
-    if (value === '' || value == null) {
-        delete STATE.reels[tripId][etapeIdx][field];
-    } else {
-        STATE.reels[tripId][etapeIdx][field] = value;
-    }
-    saveReels();
+    if (!STATE.reels[tripId][key]) STATE.reels[tripId][key] = {};
+    if (value === '' || value == null) delete STATE.reels[tripId][key][field];
+    else STATE.reels[tripId][key][field] = value;
+    saveStore();
+}
+function getCost(dayIdx, field) {
+    return STATE.costs?.[dayIdx]?.[field] ?? '';
+}
+function setCost(dayIdx, field, value) {
+    if (!STATE.costs[dayIdx]) STATE.costs[dayIdx] = {};
+    if (value === '' || value == null) delete STATE.costs[dayIdx][field];
+    else STATE.costs[dayIdx][field] = parseFloat(value);
+    saveStore();
+}
+function isSkipped(tripId, key) {
+    return !!STATE.skipped?.[tripId]?.[key];
+}
+function toggleSkip(tripId, key) {
+    if (!STATE.skipped[tripId]) STATE.skipped[tripId] = {};
+    if (STATE.skipped[tripId][key]) delete STATE.skipped[tripId][key];
+    else STATE.skipped[tripId][key] = true;
+    saveStore();
 }
 
-// === UI rendering ===
+// === Onglets ===
 function renderTabs() {
     const nav = document.getElementById('tripTabs');
     nav.innerHTML = '';
+    nav.appendChild(makeTab('synthese', 'Σ', 'Synthèse'));
     STATE.data.trajets.forEach(t => {
-        const btn = document.createElement('button');
-        btn.className = 'trip-tab' + (t.id === STATE.currentTripId ? ' active' : '');
-        // Label court : "J1", "J2", ..., "Réf."
-        const short = t.id === 'ref' ? 'Réf.' : t.id.toUpperCase();
-        btn.textContent = short;
-        btn.title = t.titre;
-        btn.addEventListener('click', () => {
-            STATE.currentTripId = t.id;
-            renderTabs();
-            renderTrip();
-        });
-        nav.appendChild(btn);
+        nav.appendChild(makeTab(t.id, t.id.toUpperCase(), t.titre));
     });
 }
+function makeTab(id, label, title) {
+    const btn = document.createElement('button');
+    btn.className = 'trip-tab' + (id === STATE.currentTabId ? ' active' : '');
+    btn.textContent = label;
+    btn.title = title;
+    btn.addEventListener('click', () => {
+        STATE.currentTabId = id;
+        renderTabs();
+        renderCurrent();
+    });
+    return btn;
+}
 
+function renderCurrent() {
+    if (STATE.currentTabId === 'synthese') renderSynthese();
+    else renderTrip();
+}
+
+// === Vue Synthèse ===
+function renderSynthese() {
+    document.getElementById('tripView').hidden = true;
+    document.getElementById('syntheseView').hidden = false;
+
+    const s = STATE.data.synthese;
+    const labels = s.day_labels;
+    const lignes = s.lignes;
+
+    document.getElementById('synthVoyage').textContent = STATE.data.voyage.nom;
+    document.getElementById('synthSousTitre').textContent = STATE.data.voyage.sous_titre || '';
+
+    const table = document.getElementById('synthTable');
+    table.innerHTML = '';
+    const headRow = document.createElement('tr');
+    headRow.appendChild(th(''));
+    labels.forEach(l => headRow.appendChild(th(l)));
+    headRow.appendChild(th('Total', 'total-col'));
+    table.appendChild(headRow);
+
+    appendRow(table, 'Date', lignes.date, labels.length);
+    appendRow(table, 'Trajet', lignes.trajet, labels.length, true);
+    appendRow(table, 'Distance', lignes.distance_km, labels.length, false, v => v != null ? `${v} km` : '—');
+    appendRow(table, 'Durée totale', lignes.duree_totale, labels.length);
+    appendRow(table, 'dont conduite', lignes.conduite, labels.length);
+    appendRow(table, 'dont pauses', lignes.pauses_recharges, labels.length);
+    appendRow(table, 'Recharges', lignes.nb_recharges, labels.length);
+    appendRow(table, 'Conso (kWh/km)', lignes.conso_kwh_par_km, labels.length, false, v => v != null ? Number(v).toFixed(3) : '—');
+
+    const costsTable = document.getElementById('synthCosts');
+    costsTable.innerHTML = '';
+    const ch = document.createElement('tr');
+    ch.appendChild(th(''));
+    labels.forEach(l => ch.appendChild(th(l)));
+    ch.appendChild(th('Total', 'total-col'));
+    costsTable.appendChild(ch);
+
+    costsTable.appendChild(costRow('Péages €', 'peages', labels.length));
+    costsTable.appendChild(costRow('Recharges €', 'recharges', labels.length));
+    costsTable.appendChild(totalCostRow('Total €', labels.length));
+
+    updateCostTotals();
+    updateKPIs();
+}
+
+function th(text, cls) {
+    const el = document.createElement('th');
+    el.textContent = text;
+    if (cls) el.className = cls;
+    return el;
+}
+function td(text, cls) {
+    const el = document.createElement('td');
+    el.textContent = text;
+    if (cls) el.className = cls;
+    return el;
+}
+function appendRow(table, label, ligne, dayCount, dim, fmt) {
+    const tr = document.createElement('tr');
+    const labelTd = td(label, 'row-label');
+    if (dim) labelTd.classList.add('row-label-dim');
+    tr.appendChild(labelTd);
+    for (let i = 0; i < dayCount; i++) {
+        const v = ligne?.jours?.[i];
+        tr.appendChild(td(fmt ? fmt(v) : (v != null ? String(v) : '—')));
+    }
+    const tot = ligne?.total;
+    tr.appendChild(td(fmt ? fmt(tot) : (tot != null ? String(tot) : '—'), 'total-col'));
+    table.appendChild(tr);
+}
+function costRow(label, field, dayCount) {
+    const tr = document.createElement('tr');
+    tr.appendChild(td(label, 'row-label'));
+    for (let i = 0; i < dayCount; i++) {
+        const cell = document.createElement('td');
+        const inp = document.createElement('input');
+        inp.type = 'number';
+        inp.inputMode = 'decimal';
+        inp.step = '0.01';
+        inp.placeholder = '—';
+        inp.value = getCost(i, field);
+        inp.addEventListener('change', () => {
+            setCost(i, field, inp.value);
+            updateCostTotals();
+        });
+        cell.appendChild(inp);
+        tr.appendChild(cell);
+    }
+    tr.appendChild(td('—', `total-col cost-total cost-total-${field}`));
+    return tr;
+}
+function totalCostRow(label, dayCount) {
+    const tr = document.createElement('tr');
+    tr.className = 'cost-total-row';
+    tr.appendChild(td(label, 'row-label'));
+    for (let i = 0; i < dayCount; i++) {
+        tr.appendChild(td('—', `cost-day-total cost-day-${i}`));
+    }
+    tr.appendChild(td('—', 'total-col cost-grand-total'));
+    return tr;
+}
+function updateCostTotals() {
+    const dayCount = STATE.data.synthese.day_labels.length;
+    let grandTotal = 0, peagesGrand = 0, rechargesGrand = 0;
+    for (let i = 0; i < dayCount; i++) {
+        const p = parseFloat(getCost(i, 'peages')) || 0;
+        const r = parseFloat(getCost(i, 'recharges')) || 0;
+        const sum = p + r;
+        peagesGrand += p; rechargesGrand += r; grandTotal += sum;
+        const cell = document.querySelector(`.cost-day-${i}`);
+        if (cell) cell.textContent = sum > 0 ? fmtEur(sum) : '—';
+    }
+    const pT = document.querySelector('.cost-total-peages');
+    if (pT) pT.textContent = peagesGrand > 0 ? fmtEur(peagesGrand) : '—';
+    const rT = document.querySelector('.cost-total-recharges');
+    if (rT) rT.textContent = rechargesGrand > 0 ? fmtEur(rechargesGrand) : '—';
+    const gT = document.querySelector('.cost-grand-total');
+    if (gT) gT.textContent = grandTotal > 0 ? fmtEur(grandTotal) : '—';
+}
+function fmtEur(v) { return v.toFixed(2).replace('.', ',') + ' €'; }
+
+// === Vue trajet (jour J1..Jn) ===
 function renderTrip() {
-    const t = STATE.data.trajets.find(x => x.id === STATE.currentTripId);
+    document.getElementById('syntheseView').hidden = true;
+    document.getElementById('tripView').hidden = false;
+
+    const t = STATE.data.trajets.find(x => x.id === STATE.currentTabId);
     if (!t) return;
     document.getElementById('tripTitle').textContent = t.titre;
     document.getElementById('tripSubtitle').textContent = t.sous_titre || '';
 
     const container = document.getElementById('etapes');
     container.innerHTML = '';
-    t.etapes.forEach((e, idx) => {
-        container.appendChild(renderEtape(t.id, e, idx, idx === 0, idx === t.etapes.length - 1));
+
+    const list = buildRenderList(t);
+    list.forEach((item, pos) => {
+        const isFirst = pos === 0;
+        const isLast = pos === list.length - 1;
+        container.appendChild(renderEtape(t, item, list, pos, isFirst, isLast));
+        // Bouton "+" entre chaque paire (pas après la dernière)
+        if (!isLast) container.appendChild(renderInsertButton(t, item));
     });
 
     updateKPIs();
 }
 
-function renderEtape(tripId, etape, idx, isFirst, isLast) {
-    const card = document.createElement('section');
-    card.className = 'etape';
+// Construit la liste rendue : étapes base + customs intercalées
+function buildRenderList(trip) {
+    const list = [];
+    trip.etapes.forEach((e, idx) => {
+        list.push({ kind: 'base', key: String(idx), etape: e, baseIdx: idx });
+        (STATE.customs[trip.id] || [])
+            .filter(c => c.after === idx)
+            .forEach(c => list.push({ kind: 'custom', key: c.id, etape: c }));
+    });
+    return list;
+}
 
-    // Header : lieu + action (pictogramme)
+// Étape précédente non-skippée dans la liste rendue
+function prevActiveKey(tripId, list, pos) {
+    for (let i = pos - 1; i >= 0; i--) {
+        if (!isSkipped(tripId, list[i].key)) return list[i].key;
+    }
+    return null;
+}
+
+function renderEtape(trip, item, list, pos, isFirst, isLast) {
+    const isCustom = item.kind === 'custom';
+    const skipped = isSkipped(trip.id, item.key);
+    const card = document.createElement('section');
+    card.className = 'etape' + (skipped ? ' skipped' : '') + (isCustom ? ' etape-custom' : '');
+
     const head = document.createElement('div');
     head.className = 'etape-head';
-    head.innerHTML = `<div class="etape-lieu">${escapeHtml(etape.lieu)}</div>` +
-                     (etape.action ? `<div class="etape-action">${escapeHtml(etape.action)}</div>` : '');
+
+    const lieuWrap = document.createElement('div');
+    lieuWrap.className = 'etape-lieu-wrap';
+    const lieu = document.createElement('div');
+    lieu.className = 'etape-lieu';
+    lieu.textContent = item.etape.lieu || '(sans lieu)';
+    lieuWrap.appendChild(lieu);
+    if (item.etape.action) {
+        const action = document.createElement('div');
+        action.className = 'etape-action';
+        action.textContent = item.etape.action;
+        lieuWrap.appendChild(action);
+    }
+    if (isCustom) {
+        const badge = document.createElement('div');
+        badge.className = 'etape-badge';
+        badge.textContent = 'Intercalée';
+        lieuWrap.appendChild(badge);
+    }
+    head.appendChild(lieuWrap);
+
+    // Actions (skip / delete custom)
+    const actions = document.createElement('div');
+    actions.className = 'etape-actions';
+    if (isCustom) {
+        const del = document.createElement('button');
+        del.className = 'etape-action-btn';
+        del.title = 'Supprimer cette étape intercalée';
+        del.textContent = '🗑';
+        del.addEventListener('click', () => removeCustom(trip.id, item.key));
+        actions.appendChild(del);
+    } else if (!isFirst && !isLast) {
+        const skip = document.createElement('button');
+        skip.className = 'etape-action-btn' + (skipped ? ' active' : '');
+        skip.title = skipped ? 'Réactiver cette étape' : 'Sauter cette étape';
+        skip.textContent = skipped ? '↺' : '🗑';
+        skip.addEventListener('click', () => {
+            toggleSkip(trip.id, item.key);
+            renderTrip();
+        });
+        actions.appendChild(skip);
+    }
+    head.appendChild(actions);
     card.appendChild(head);
+
+    if (skipped) {
+        const note = document.createElement('div');
+        note.className = 'etape-skipped-note';
+        note.textContent = '⚠ Étape sautée — non comptabilisée dans les KPIs';
+        card.appendChild(note);
+        return card;
+    }
 
     const grid = document.createElement('div');
     grid.className = 'etape-grid';
 
-    // Distance prévue + réelle (skip pour Départ)
+    // Bloc Arrivée (skip pour 1ère étape)
     if (!isFirst) {
-        grid.appendChild(field('Distance prévue', etape.distance_prevue != null ? `${etape.distance_prevue} km` : '—', null));
-        grid.appendChild(field('Distance réelle', null, 'number', tripId, idx, 'distance_reelle', 'km'));
-        grid.appendChild(field('Durée prévue', etape.duree_prevue || '—', null));
-        grid.appendChild(field('Durée réelle', null, 'text', tripId, idx, 'duree_reelle', 'ex 1h25'));
-        grid.appendChild(field('Heure arr. prévue', etape.heure_arrivee_prevue || '—', null));
-        grid.appendChild(field('Heure arr. réelle', null, 'time', tripId, idx, 'heure_arrivee_reelle'));
-        grid.appendChild(field('Charge arr. prévue', fmtPct(etape.charge_arrivee_prevue), null));
-        grid.appendChild(field('Charge arr. réelle %', null, 'number', tripId, idx, 'charge_arrivee_reelle', '0-100'));
+        if (!isCustom && item.etape.distance_prevue != null) {
+            grid.appendChild(field('Distance prévue', `${item.etape.distance_prevue} km`, null));
+        }
+        grid.appendChild(field('Distance réelle', null, 'number', trip.id, item.key, 'distance_reelle', 'km'));
+        if (!isCustom && item.etape.duree_prevue) {
+            grid.appendChild(field('Durée prévue', item.etape.duree_prevue, null));
+        }
+        const dureeReelle = computeDureeTrajet(trip.id, list, pos);
+        grid.appendChild(field('Durée réelle', dureeReelle || '—', null, null, null, null, null, 'derived'));
+        if (!isCustom && item.etape.heure_arrivee_prevue) {
+            grid.appendChild(field('Heure arr. prévue', item.etape.heure_arrivee_prevue, null));
+        }
+        grid.appendChild(field('Heure arr. réelle', null, 'time', trip.id, item.key, 'heure_arrivee_reelle'));
+        if (!isCustom && item.etape.charge_arrivee_prevue != null) {
+            grid.appendChild(field('Charge arr. prévue', fmtPct(item.etape.charge_arrivee_prevue), null));
+        }
+        grid.appendChild(field('Charge arr. réelle %', null, 'number', trip.id, item.key, 'charge_arrivee_reelle', '0-100'));
     }
 
-    // Si pas la dernière étape, on a aussi un départ après l'arrivée
+    // Bloc Départ (skip pour dernière)
     if (!isLast) {
         if (!isFirst) {
             const sep = document.createElement('div');
-            sep.className = 'field-wide';
-            sep.style.borderTop = '1px dashed var(--border)';
-            sep.style.margin = '0.3rem 0';
+            sep.className = 'field-wide separator';
             grid.appendChild(sep);
         }
-        grid.appendChild(field('Heure dép. prévue', etape.heure_depart_prevue || '—', null));
-        grid.appendChild(field('Heure dép. réelle', null, 'time', tripId, idx, 'heure_depart_reelle'));
-        grid.appendChild(field('Charge dép. prévue', fmtPct(etape.charge_depart_prevue), null));
-        grid.appendChild(field('Charge dép. réelle %', null, 'number', tripId, idx, 'charge_depart_reelle', '0-100'));
+        if (!isCustom && item.etape.heure_depart_prevue) {
+            grid.appendChild(field('Heure dép. prévue', item.etape.heure_depart_prevue, null));
+        }
+        grid.appendChild(field('Heure dép. réelle', null, 'time', trip.id, item.key, 'heure_depart_reelle'));
+        if (!isFirst) {
+            if (!isCustom && item.etape.duree_action_prevue) {
+                grid.appendChild(field('Durée action prévue', item.etape.duree_action_prevue, null));
+            }
+            const dureeAction = computeDureeAction(trip.id, item.key);
+            grid.appendChild(field('Durée action réelle', dureeAction || '—', null, null, null, null, null, 'derived'));
+        }
+        if (!isCustom && item.etape.charge_depart_prevue != null) {
+            grid.appendChild(field('Charge dép. prévue', fmtPct(item.etape.charge_depart_prevue), null));
+        }
+        grid.appendChild(field('Charge dép. réelle %', null, 'number', trip.id, item.key, 'charge_depart_reelle', '0-100'));
     }
 
     card.appendChild(grid);
     return card;
 }
 
-function field(label, prevuText, inputType, tripId, etapeIdx, fieldKey, placeholder) {
+function renderInsertButton(trip, item) {
+    const wrap = document.createElement('div');
+    wrap.className = 'insert-row';
+    const btn = document.createElement('button');
+    btn.className = 'insert-btn';
+    btn.textContent = '＋ Intercaler une étape';
+    btn.addEventListener('click', () => insertCustom(trip, item));
+    wrap.appendChild(btn);
+    return wrap;
+}
+
+// === Customs : insert / remove ===
+function insertCustom(trip, item) {
+    // L'étape custom est ancrée APRÈS l'étape "base" en cours (ou après le base parent si on est sur une custom)
+    const afterBaseIdx = (item.kind === 'base') ? item.baseIdx : findBaseIdxForCustom(trip.id, item.key);
+    const lieu = prompt('Lieu de l\'étape à intercaler ?', '');
+    if (lieu === null || !lieu.trim()) return;
+    const action = prompt('Action ? (ex : ⚡ Recharge, 🍴 Repas, 🚿 Pause)', '⚡ Recharge');
+    if (action === null) return;
+
+    const newCustom = {
+        id: 'c-' + Date.now().toString(36),
+        after: afterBaseIdx,
+        lieu: lieu.trim(),
+        action: action.trim() || '',
+    };
+    if (!STATE.customs[trip.id]) STATE.customs[trip.id] = [];
+    STATE.customs[trip.id].push(newCustom);
+    saveStore();
+    renderTrip();
+}
+function findBaseIdxForCustom(tripId, customId) {
+    const c = (STATE.customs[tripId] || []).find(x => x.id === customId);
+    return c ? c.after : 0;
+}
+function removeCustom(tripId, customId) {
+    if (!confirm('Supprimer cette étape intercalée ?')) return;
+    STATE.customs[tripId] = (STATE.customs[tripId] || []).filter(c => c.id !== customId);
+    if (STATE.reels[tripId]) delete STATE.reels[tripId][customId];
+    if (STATE.skipped[tripId]) delete STATE.skipped[tripId][customId];
+    saveStore();
+    renderTrip();
+}
+
+function field(label, prevuText, inputType, tripId, key, fieldKey, placeholder, variant) {
     const div = document.createElement('div');
     div.className = 'field';
     div.innerHTML = `<div class="field-label">${escapeHtml(label)}</div>`;
     if (prevuText !== null) {
         const p = document.createElement('div');
-        p.className = 'field-prevu';
+        p.className = variant === 'derived' ? 'field-derived' : 'field-prevu';
         p.textContent = prevuText;
         div.appendChild(p);
     }
@@ -137,20 +432,48 @@ function field(label, prevuText, inputType, tripId, etapeIdx, fieldKey, placehol
         wrap.className = 'field-input';
         const inp = document.createElement('input');
         inp.type = inputType;
-        if (inputType === 'number') {
-            inp.inputMode = 'decimal';
-            inp.step = 'any';
-        }
+        if (inputType === 'number') { inp.inputMode = 'decimal'; inp.step = 'any'; }
         if (placeholder) inp.placeholder = placeholder;
-        inp.value = getReel(tripId, etapeIdx, fieldKey);
+        inp.value = getReel(tripId, key, fieldKey);
         inp.addEventListener('change', () => {
-            setReel(tripId, etapeIdx, fieldKey, inp.value);
-            updateKPIs();
+            setReel(tripId, key, fieldKey, inp.value);
+            renderTrip();
         });
         wrap.appendChild(inp);
         div.appendChild(wrap);
     }
     return div;
+}
+
+// === Dérivations L7 / L16 ===
+function parseHHMM(s) {
+    if (!s) return null;
+    const m = String(s).trim().match(/^(\d{1,2})[h:](\d{0,2})/);
+    if (!m) return null;
+    const h = parseInt(m[1], 10);
+    const mn = m[2] ? parseInt(m[2], 10) : 0;
+    if (isNaN(h) || isNaN(mn)) return null;
+    return h * 60 + mn;
+}
+function fmtDuree(mn) {
+    if (mn == null || mn < 0) return null;
+    const h = Math.floor(mn / 60);
+    const m = mn % 60;
+    return `${h}h${String(m).padStart(2, '0')}`;
+}
+function computeDureeTrajet(tripId, list, pos) {
+    const prevKey = prevActiveKey(tripId, list, pos);
+    if (prevKey == null) return null;
+    const arr = parseHHMM(getReel(tripId, list[pos].key, 'heure_arrivee_reelle'));
+    const dep = parseHHMM(getReel(tripId, prevKey, 'heure_depart_reelle'));
+    if (arr == null || dep == null) return null;
+    return fmtDuree(arr - dep);
+}
+function computeDureeAction(tripId, key) {
+    const dep = parseHHMM(getReel(tripId, key, 'heure_depart_reelle'));
+    const arr = parseHHMM(getReel(tripId, key, 'heure_arrivee_reelle'));
+    if (dep == null || arr == null) return null;
+    return fmtDuree(dep - arr);
 }
 
 function fmtPct(v) {
@@ -159,46 +482,43 @@ function fmtPct(v) {
     if (typeof v === 'number' && v <= 1.01) return Math.round(v * 100) + ' %';
     return v + ' %';
 }
-
 function escapeHtml(s) {
     if (s == null) return '';
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// === KPIs (recalculés à chaque saisie) ===
+// === KPIs ===
 function updateKPIs() {
-    const t = STATE.data.trajets.find(x => x.id === STATE.currentTripId);
-    const reels = STATE.reels[STATE.currentTripId] || {};
     const cap = STATE.data.voiture.capacite_utile_kwh;
-    const conso_theo = STATE.data.voiture.conso_theorique_kwh_par_km;
+    let distance = 0, kwh = 0, consoTheoRef;
 
-    let distance_totale = 0;
-    let kwh_total = 0;
-    for (let i = 0; i < t.etapes.length; i++) {
-        const r_arr = reels[i] || {};
-        const r_dep_prev = reels[i - 1] || {};
-        const dist = parseFloat(r_arr.distance_reelle);
-        // Énergie consommée = (charge_dep_précédente - charge_arr_actuelle) × capacité
-        const charge_dep_prev = parseFloat(r_dep_prev.charge_depart_reelle);
-        const charge_arr = parseFloat(r_arr.charge_arrivee_reelle);
-        if (!isNaN(dist) && !isNaN(charge_dep_prev) && !isNaN(charge_arr)) {
-            distance_totale += dist;
-            kwh_total += (charge_dep_prev - charge_arr) / 100 * cap;
-        }
+    if (STATE.currentTabId === 'synthese') {
+        STATE.data.trajets.forEach(t => {
+            const accum = accumulateTrip(t);
+            distance += accum.distance;
+            kwh += accum.kwh;
+        });
+        consoTheoRef = STATE.data.synthese.lignes.conso_kwh_par_km.total
+            || STATE.data.trajets[0]?.conso_jour
+            || 0.205;
+    } else {
+        const t = STATE.data.trajets.find(x => x.id === STATE.currentTabId);
+        if (!t) return;
+        const accum = accumulateTrip(t);
+        distance = accum.distance;
+        kwh = accum.kwh;
+        consoTheoRef = t.conso_jour || 0.205;
     }
 
-    if (distance_totale > 0 && kwh_total > 0) {
-        const conso = (kwh_total / distance_totale) * 100;  // kWh/100 km
+    if (distance > 0 && kwh > 0) {
+        const conso = (kwh / distance) * 100;
         document.getElementById('kpiConso').textContent = conso.toFixed(1) + ' kWh/100';
-        // Autonomie projetée si la charge actuelle est 100% (info à pleine charge)
-        const auto = cap / (kwh_total / distance_totale);
+        const auto = cap / (kwh / distance);
         document.getElementById('kpiAutonomie').textContent = Math.round(auto) + ' km';
-        // Écart vs théorique : conso_theo × 100 = 22 kWh/100
-        const conso_theo_100 = conso_theo * 100;
-        const ecart = conso - conso_theo_100;
+        const consoTheo100 = consoTheoRef * 100;
+        const ecart = conso - consoTheo100;
         const ecartEl = document.getElementById('kpiEcart');
-        const sign = ecart >= 0 ? '+' : '';
-        ecartEl.textContent = sign + ecart.toFixed(1) + ' kWh/100';
+        ecartEl.textContent = (ecart >= 0 ? '+' : '') + ecart.toFixed(1) + ' kWh/100';
         ecartEl.classList.remove('good', 'warn');
         ecartEl.classList.add(ecart > 0 ? 'warn' : 'good');
     } else {
@@ -209,29 +529,62 @@ function updateKPIs() {
     }
 }
 
-// === Footer actions ===
+function accumulateTrip(t) {
+    const cap = STATE.data.voiture.capacite_utile_kwh;
+    const list = buildRenderList(t);
+    let distance = 0, kwh = 0;
+    for (let pos = 0; pos < list.length; pos++) {
+        const cur = list[pos];
+        if (isSkipped(t.id, cur.key)) continue;
+        const prevKey = prevActiveKey(t.id, list, pos);
+        if (prevKey == null) continue;
+        const d = parseFloat(getReel(t.id, cur.key, 'distance_reelle'));
+        const chargeDepPrev = parseFloat(getReel(t.id, prevKey, 'charge_depart_reelle'));
+        const chargeArr = parseFloat(getReel(t.id, cur.key, 'charge_arrivee_reelle'));
+        if (!isNaN(d) && !isNaN(chargeDepPrev) && !isNaN(chargeArr)) {
+            distance += d;
+            kwh += (chargeDepPrev - chargeArr) / 100 * cap;
+        }
+    }
+    return { distance, kwh };
+}
+
+// === Footer ===
 function bindFooter() {
     document.getElementById('exportBtn').addEventListener('click', exportJSON);
     document.getElementById('resetTripBtn').addEventListener('click', () => {
-        if (!confirm(`Réinitialiser les saisies du trajet « ${STATE.currentTripId.toUpperCase()} » ?`)) return;
-        delete STATE.reels[STATE.currentTripId];
-        saveReels();
-        renderTrip();
+        if (STATE.currentTabId === 'synthese') {
+            if (!confirm('Réinitialiser tous les coûts saisis (Péages + Recharges) ?')) return;
+            STATE.costs = {};
+            saveStore();
+            renderSynthese();
+        } else {
+            if (!confirm(`Réinitialiser le trajet « ${STATE.currentTabId.toUpperCase()} » (réels, étapes sautées, étapes intercalées) ?`)) return;
+            delete STATE.reels[STATE.currentTabId];
+            delete STATE.skipped[STATE.currentTabId];
+            delete STATE.customs[STATE.currentTabId];
+            saveStore();
+            renderTrip();
+        }
     });
     document.getElementById('resetAllBtn').addEventListener('click', () => {
-        if (!confirm('Réinitialiser TOUTES les saisies de tous les trajets ?')) return;
-        STATE.reels = {};
-        saveReels();
-        renderTrip();
+        if (!confirm('Réinitialiser TOUTES les saisies (réels + coûts + skips + intercalées) ?')) return;
+        STATE.reels = {}; STATE.costs = {};
+        STATE.skipped = {}; STATE.customs = {};
+        saveStore();
+        renderCurrent();
     });
 }
 
 function exportJSON() {
     const out = {
-        version: 1,
+        version: 2,
         exporte_le: new Date().toISOString(),
         voyage: STATE.data.voyage,
         reels: STATE.reels,
+        costs: STATE.costs,
+        skipped: STATE.skipped,
+        customs: STATE.customs,
     };
     const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

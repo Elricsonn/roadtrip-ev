@@ -1,15 +1,149 @@
 {
-  "version": 1,
-  "source": "Rocamadour Lourdes 2026 - Itinéraire - 2026-05-23.xlsx",
+  "version": 2,
+  "source": "Rocamadour Lourdes 2026 - Itinéraire.xlsx",
+  "extracted_at": "2026-05-25",
   "voyage": {
-    "nom": "Road Trip EV — Monaco / Rocamadour / Lourdes / Rians",
+    "nom": "🚗⚡  ROAD TRIP EV 2026",
+    "sous_titre": "Monaco → Narbonne → Rocamadour → Lourdes → Rians → Monaco   •   18–26 juin 2026   •   Smart #3 Brabus",
     "voiture": "Smart #3 Brabus",
     "dates": "Juin 2026"
   },
   "voiture": {
     "modele": "Smart #3 Brabus",
     "capacite_utile_kwh": 62,
-    "conso_theorique_kwh_par_km": 0.205
+    "passagers": "3 adultes"
+  },
+  "synthese": {
+    "day_labels": [
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5"
+    ],
+    "lignes": {
+      "date": {
+        "label": "Date",
+        "jours": [
+          "jeu. 18 juin",
+          "ven. 19 juin",
+          "lun. 22 juin",
+          "jeu. 25 juin",
+          "ven. 26 juin"
+        ],
+        "total": "5 jours"
+      },
+      "trajet": {
+        "label": "Trajet",
+        "jours": [
+          "Monaco\n→ Narbonne",
+          "Narbonne\n→ Rocamadour",
+          "Rocamadour\n→ Lourdes",
+          "Lourdes\n→ Rians",
+          "Rians\n→ Monaco"
+        ],
+        "total": "Boucle\nMonaco → Monaco"
+      },
+      "distance_km": {
+        "label": "Distance",
+        "jours": [
+          438,
+          323,
+          332,
+          616,
+          185
+        ],
+        "total": 1894
+      },
+      "duree_totale": {
+        "label": "Durée totale",
+        "jours": [
+          "5h41",
+          "4h50",
+          "4h40",
+          "9h07",
+          "2h10"
+        ],
+        "total": null
+      },
+      "conduite": {
+        "label": "  dont conduite",
+        "jours": [
+          "4h21",
+          "3h30",
+          "3h35",
+          "6h02",
+          "2h10"
+        ],
+        "total": null
+      },
+      "pauses_recharges": {
+        "label": "  dont pauses / recharges",
+        "jours": [
+          "1h20",
+          "1h20",
+          "1h05",
+          "3h05",
+          "0h00"
+        ],
+        "total": null
+      },
+      "nb_recharges": {
+        "label": "Nb recharges",
+        "jours": [
+          2,
+          2,
+          2,
+          4,
+          0
+        ],
+        "total": 10
+      },
+      "conso_kwh_par_km": {
+        "label": "Conso prévue (kWh/km)",
+        "jours": [
+          0.205,
+          0.205,
+          0.205,
+          0.205,
+          0.205
+        ],
+        "total": 0.205
+      },
+      "peages_eur": {
+        "label": "Péages",
+        "jours": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "total": 0
+      },
+      "recharges_eur": {
+        "label": "Recharges",
+        "jours": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "total": 0
+      },
+      "total_eur": {
+        "label": "TOTAL JOUR",
+        "jours": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "total": 0
+      }
+    }
   },
   "trajets": [
     {
@@ -17,6 +151,7 @@
       "titre": "Jour 1 — Monaco → Narbonne",
       "sous_titre": "Novotel Narbonne Sud",
       "feuille_excel": "Monaco-->Narbonne",
+      "conso_jour": 0.205,
       "etapes": [
         {
           "lieu": "Monaco",
@@ -65,6 +200,18 @@
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
           "charge_depart_prevue": null
+        },
+        {
+          "lieu": "True",
+          "distance_prevue": 0,
+          "duree_prevue": null,
+          "cumul_prevu": null,
+          "heure_arrivee_prevue": null,
+          "charge_arrivee_prevue": null,
+          "action": null,
+          "duree_action_prevue": null,
+          "heure_depart_prevue": null,
+          "charge_depart_prevue": null
         }
       ]
     },
@@ -73,6 +220,7 @@
       "titre": "Jour 2 — Narbonne → Rocamadour",
       "sous_titre": "Hôtel les Vieilles Tours",
       "feuille_excel": "Narbonne-->Rocamadour",
+      "conso_jour": 0.205,
       "etapes": [
         {
           "lieu": "Novotel Narbonne Sud A9/A61",
@@ -129,6 +277,7 @@
       "titre": "Jour 3 — Rocamadour → Lourdes",
       "sous_titre": "Belfry & Spa (3 nuits)",
       "feuille_excel": "Rocamadour-->Lourdes",
+      "conso_jour": 0.205,
       "etapes": [
         {
           "lieu": "Hôtel les Vieilles Tours Lafage, Rocamadour",
@@ -185,6 +334,7 @@
       "titre": "Jour 4 — Lourdes → Rians",
       "sous_titre": "La Margottière (Isa & Titi)",
       "feuille_excel": "Lourdes-->Rians",
+      "conso_jour": 0.205,
       "etapes": [
         {
           "lieu": "Belfry & Spa by Ligne St Barth",
@@ -265,6 +415,7 @@
       "titre": "Jour 5 — Rians → Monaco",
       "sous_titre": "Retour Monaco",
       "feuille_excel": "Rians-->Monaco",
+      "conso_jour": 0.205,
       "etapes": [
         {
           "lieu": "La Margottière chez Isa et Titi",
@@ -289,50 +440,6 @@
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
           "charge_depart_prevue": null
-        }
-      ]
-    },
-    {
-      "id": "ref",
-      "titre": "Référence — Monaco ↔ Draguignan",
-      "sous_titre": "Conso réelle mesurée",
-      "feuille_excel": "Monaco-->Draguignan-->Monaco",
-      "etapes": [
-        {
-          "lieu": "Monaco",
-          "distance_prevue": 0,
-          "duree_prevue": "—",
-          "cumul_prevu": 0,
-          "heure_arrivee_prevue": "—",
-          "charge_arrivee_prevue": "—",
-          "action": "Départ",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "15h00",
-          "charge_depart_prevue": 0.98
-        },
-        {
-          "lieu": "Draguignan",
-          "distance_prevue": 109,
-          "duree_prevue": "1h15",
-          "cumul_prevu": 109,
-          "heure_arrivee_prevue": "16h15",
-          "charge_arrivee_prevue": 0.58,
-          "action": "Activité",
-          "duree_action_prevue": "3h00",
-          "heure_depart_prevue": "19h15",
-          "charge_depart_prevue": 0.58
-        },
-        {
-          "lieu": "Monaco",
-          "distance_prevue": 111,
-          "duree_prevue": "1h18",
-          "cumul_prevu": 220,
-          "heure_arrivee_prevue": "20h33",
-          "charge_arrivee_prevue": 0.16,
-          "action": "Fin de trajet",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "—",
-          "charge_depart_prevue": "—"
         }
       ]
     }

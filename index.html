@@ -23,7 +23,7 @@
 
 <main class="content">
 
-    <!-- KPIs en haut, recalculés à chaque saisie -->
+    <!-- KPIs (live) -->
     <section class="kpi-band" id="kpiBand">
         <div class="kpi">
             <div class="kpi-label">Conso moy.</div>
@@ -39,19 +39,40 @@
         </div>
     </section>
 
-    <h2 class="trip-title" id="tripTitle"></h2>
-    <p class="trip-subtitle" id="tripSubtitle"></p>
+    <!-- Vue Synthèse -->
+    <section id="syntheseView" hidden>
+        <h2 class="trip-title" id="synthVoyage"></h2>
+        <p class="trip-subtitle" id="synthSousTitre"></p>
 
-    <!-- Liste des étapes pour le trajet sélectionné -->
-    <div class="etapes" id="etapes"></div>
+        <div class="synth-block">
+            <h3 class="block-title">Récapitulatif</h3>
+            <div class="synth-scroll">
+                <table class="synth-table" id="synthTable"></table>
+            </div>
+        </div>
+
+        <div class="synth-block">
+            <h3 class="block-title">Coûts (saisie temps réel)</h3>
+            <div class="synth-scroll">
+                <table class="synth-table costs-table" id="synthCosts"></table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vue Trajet -->
+    <section id="tripView" hidden>
+        <h2 class="trip-title" id="tripTitle"></h2>
+        <p class="trip-subtitle" id="tripSubtitle"></p>
+        <div class="etapes" id="etapes"></div>
+    </section>
 
     <div class="footer-actions">
-        <button id="resetTripBtn" class="btn-secondary">🗑 Réinitialiser ce trajet</button>
+        <button id="resetTripBtn" class="btn-secondary">🗑 Réinitialiser cet onglet</button>
         <button id="resetAllBtn" class="btn-secondary">🧹 Tout réinitialiser</button>
     </div>
 
 </main>
 
-<script src="app.js"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
