@@ -200,18 +200,6 @@
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
           "charge_depart_prevue": null
-        },
-        {
-          "lieu": "True",
-          "distance_prevue": 0,
-          "duree_prevue": null,
-          "cumul_prevu": null,
-          "heure_arrivee_prevue": null,
-          "charge_arrivee_prevue": null,
-          "action": null,
-          "duree_action_prevue": null,
-          "heure_depart_prevue": null,
-          "charge_depart_prevue": null
         }
       ]
     },
