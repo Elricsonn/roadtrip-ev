@@ -1,7 +1,7 @@
 {
   "version": 2,
   "source": "Rocamadour Lourdes 2026 - Itinéraire.xlsx",
-  "extracted_at": "2026-05-25",
+  "extracted_at": "2026-06-18",
   "voyage": {
     "nom": "🚗⚡  ROAD TRIP EV 2026",
     "sous_titre": "Monaco → Narbonne → Rocamadour → Lourdes → Rians → Monaco   •   18–26 juin 2026   •   Smart #3 Brabus",
@@ -103,7 +103,7 @@
         "label": "Conso prévue (kWh/km)",
         "jours": [
           0.205,
-          0.205,
+          0.186,
           0.205,
           0.205,
           0.205
@@ -220,7 +220,7 @@
       "titre": "Jour 2 — Narbonne → Rocamadour",
       "sous_titre": "Hôtel les Vieilles Tours",
       "feuille_excel": "Narbonne-->Rocamadour",
-      "conso_jour": 0.205,
+      "conso_jour": 0.186,
       "etapes": [
         {
           "lieu": "Novotel Narbonne Sud A9/A61",
@@ -240,7 +240,7 @@
           "duree_prevue": "1h00",
           "cumul_prevu": 115,
           "heure_arrivee_prevue": "11h00",
-          "charge_arrivee_prevue": 0.619758064516129,
+          "charge_arrivee_prevue": 0.655,
           "action": "⚡",
           "duree_action_prevue": "0h20",
           "heure_depart_prevue": "11h20",
@@ -252,7 +252,7 @@
           "duree_prevue": "1h50",
           "cumul_prevu": 293,
           "heure_arrivee_prevue": "13h10",
-          "charge_arrivee_prevue": 0.2114516129032259,
+          "charge_arrivee_prevue": 0.266,
           "action": "Repas + ⚡",
           "duree_action_prevue": "1h00",
           "heure_depart_prevue": "14h10",
@@ -264,7 +264,7 @@
           "duree_prevue": "0h40",
           "cumul_prevu": 323,
           "heure_arrivee_prevue": "14h50",
-          "charge_arrivee_prevue": 0.9008064516129033,
+          "charge_arrivee_prevue": 0.91,
           "action": "Fin de trajet",
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
