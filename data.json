@@ -1,7 +1,7 @@
 {
   "version": 2,
   "source": "Rocamadour Lourdes 2026 - Itinéraire.xlsx",
-  "extracted_at": "2026-06-18",
+  "extracted_at": "2026-06-24",
   "voyage": {
     "nom": "🚗⚡  ROAD TRIP EV 2026",
     "sous_titre": "Monaco → Narbonne → Rocamadour → Lourdes → Rians → Monaco   •   18–26 juin 2026   •   Smart #3 Brabus",
@@ -61,7 +61,7 @@
           "5h41",
           "4h50",
           "4h40",
-          "9h07",
+          "8h17",
           "2h10"
         ],
         "total": null
@@ -83,7 +83,7 @@
           "1h20",
           "1h20",
           "1h05",
-          "3h05",
+          "2h15",
           "0h00"
         ],
         "total": null
@@ -94,10 +94,10 @@
           2,
           2,
           2,
-          4,
+          3,
           0
         ],
-        "total": 10
+        "total": 9
       },
       "conso_kwh_par_km": {
         "label": "Conso prévue (kWh/km)",
@@ -105,7 +105,7 @@
           0.205,
           0.186,
           0.205,
-          0.205,
+          0.187,
           0.205
         ],
         "total": 0.205
@@ -322,7 +322,7 @@
       "titre": "Jour 4 — Lourdes → Rians",
       "sous_titre": "La Margottière (Isa & Titi)",
       "feuille_excel": "Lourdes-->Rians",
-      "conso_jour": 0.205,
+      "conso_jour": 0.187,
       "etapes": [
         {
           "lieu": "Belfry & Spa by Ligne St Barth",
@@ -333,31 +333,19 @@
           "charge_arrivee_prevue": "—",
           "action": "Départ",
           "duree_action_prevue": "—",
-          "heure_depart_prevue": "10h00",
+          "heure_depart_prevue": "9h30",
           "charge_depart_prevue": 1
         },
         {
-          "lieu": "Aire du Comminges A64",
-          "distance_prevue": 79,
-          "duree_prevue": "0h52",
-          "cumul_prevu": 79,
-          "heure_arrivee_prevue": "10h52",
-          "charge_arrivee_prevue": 0.7387903225806451,
-          "action": "⚡",
-          "duree_action_prevue": "0h30",
-          "heure_depart_prevue": "11h22",
-          "charge_depart_prevue": 0.9
-        },
-        {
           "lieu": "Aire de Port- Lauragais Sud",
-          "distance_prevue": 136,
-          "duree_prevue": "1h15",
+          "distance_prevue": 215,
+          "duree_prevue": "2h07",
           "cumul_prevu": 215,
-          "heure_arrivee_prevue": "12h37",
-          "charge_arrivee_prevue": 0.45032258064516134,
+          "heure_arrivee_prevue": "11h37",
+          "charge_arrivee_prevue": 0.35153225806451616,
           "action": "Déjeuner + ⚡",
           "duree_action_prevue": "1h00",
-          "heure_depart_prevue": "13h37",
+          "heure_depart_prevue": "12h37",
           "charge_depart_prevue": 1
         },
         {
@@ -365,11 +353,11 @@
           "distance_prevue": 116,
           "duree_prevue": "1h00",
           "cumul_prevu": 331,
-          "heure_arrivee_prevue": "14h37",
-          "charge_arrivee_prevue": 0.6164516129032258,
+          "heure_arrivee_prevue": "13h37",
+          "charge_arrivee_prevue": 0.6501290322580645,
           "action": "⚡",
-          "duree_action_prevue": "1h00",
-          "heure_depart_prevue": "15h37",
+          "duree_action_prevue": "0h40",
+          "heure_depart_prevue": "14h17",
           "charge_depart_prevue": 1
         },
         {
@@ -377,11 +365,11 @@
           "distance_prevue": 205,
           "duree_prevue": "1h55",
           "cumul_prevu": 536,
-          "heure_arrivee_prevue": "17h32",
-          "charge_arrivee_prevue": 0.3221774193548387,
+          "heure_arrivee_prevue": "16h12",
+          "charge_arrivee_prevue": 0.3816935483870968,
           "action": "Goûter + ⚡",
           "duree_action_prevue": "0h35",
-          "heure_depart_prevue": "18h07",
+          "heure_depart_prevue": "16h47",
           "charge_depart_prevue": 0.8
         },
         {
@@ -389,8 +377,8 @@
           "distance_prevue": 80,
           "duree_prevue": "1h00",
           "cumul_prevu": 616,
-          "heure_arrivee_prevue": "19h07",
-          "charge_arrivee_prevue": 0.5354838709677421,
+          "heure_arrivee_prevue": "17h47",
+          "charge_arrivee_prevue": 0.5587096774193548,
           "action": "Fin de trajet",
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
