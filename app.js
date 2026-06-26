@@ -324,6 +324,9 @@ function renderEtape(trip, item, list, pos, isFirst, isLast) {
     const grid = document.createElement('div');
     grid.className = 'etape-grid';
 
+    // Heures théoriques recalculées en cascade depuis le dernier départ réel connu
+    const rt = (!isCustom) ? recalcTimes(trip, list, pos) : { arrivee: null, depart: null };
+
     // Bloc Arrivée (skip pour 1ère étape)
     if (!isFirst) {
         if (!isCustom && item.etape.distance_prevue != null) {
@@ -336,7 +339,11 @@ function renderEtape(trip, item, list, pos, isFirst, isLast) {
         const dureeReelle = computeDureeTrajet(trip.id, list, pos);
         grid.appendChild(field('Durée réelle', dureeReelle || '—', null, null, null, null, null, 'derived'));
         if (!isCustom && item.etape.heure_arrivee_prevue) {
-            grid.appendChild(field('Heure arr. prévue', item.etape.heure_arrivee_prevue, null));
+            if (rt.arrivee) {
+                grid.appendChild(field('Heure arr. recalculée', rt.arrivee, null, null, null, null, null, 'derived'));
+            } else {
+                grid.appendChild(field('Heure arr. prévue', item.etape.heure_arrivee_prevue, null));
+            }
         }
         grid.appendChild(field('Heure arr. réelle', null, 'time', trip.id, item.key, 'heure_arrivee_reelle'));
         if (!isCustom && item.etape.charge_arrivee_prevue != null) {
@@ -353,7 +360,11 @@ function renderEtape(trip, item, list, pos, isFirst, isLast) {
             grid.appendChild(sep);
         }
         if (!isCustom && item.etape.heure_depart_prevue) {
-            grid.appendChild(field('Heure dép. prévue', item.etape.heure_depart_prevue, null));
+            if (rt.depart) {
+                grid.appendChild(field('Heure dép. recalculée', rt.depart, null, null, null, null, null, 'derived'));
+            } else {
+                grid.appendChild(field('Heure dép. prévue', item.etape.heure_depart_prevue, null));
+            }
         }
         grid.appendChild(field('Heure dép. réelle', null, 'time', trip.id, item.key, 'heure_depart_reelle'));
         if (!isFirst) {
@@ -474,6 +485,40 @@ function computeDureeAction(tripId, key) {
     const arr = parseHHMM(getReel(tripId, key, 'heure_arrivee_reelle'));
     if (dep == null || arr == null) return null;
     return fmtDuree(dep - arr);
+}
+
+// Recalcule les heures THÉORIQUES (arrivée + départ) de l'étape `pos` en cascade
+// depuis le dernier départ RÉEL connu en amont. Tant qu'aucun départ réel n'existe
+// en amont → renvoie null (on garde alors les heures prévues d'origine de data.json).
+function recalcTimes(trip, list, pos) {
+    let effDep = null, hasReal = false, seenFirst = false;
+    for (let i = 0; i < list.length; i++) {
+        if (isSkipped(trip.id, list[i].key)) continue;
+        const item = list[i];
+        if (!seenFirst) {
+            seenFirst = true;
+            const rd = parseHHMM(getReel(trip.id, item.key, 'heure_depart_reelle'));
+            if (rd != null) { effDep = rd; hasReal = true; }
+            else { effDep = parseHHMM(item.etape && item.etape.heure_depart_prevue); hasReal = false; }
+            if (i === pos) return { arrivee: null, depart: null };
+            continue;
+        }
+        const dureePrev = item.etape ? parseHHMM(item.etape.duree_prevue) : null;
+        const arrMin = (hasReal && effDep != null && dureePrev != null) ? effDep + dureePrev : null;
+        const action = item.etape ? parseHHMM(item.etape.duree_action_prevue) : null;
+        const departMin = (arrMin != null) ? (action != null ? arrMin + action : arrMin) : null;
+        if (i === pos) {
+            return {
+                arrivee: arrMin != null ? fmtDuree(arrMin) : null,
+                depart: (hasReal && departMin != null) ? fmtDuree(departMin) : null,
+            };
+        }
+        const rd = parseHHMM(getReel(trip.id, item.key, 'heure_depart_reelle'));
+        if (rd != null) { effDep = rd; hasReal = true; }
+        else if (arrMin != null) { effDep = departMin; }
+        else { effDep = parseHHMM(item.etape && item.etape.heure_depart_prevue); }
+    }
+    return { arrivee: null, depart: null };
 }
 
 function fmtPct(v) {
