@@ -1,7 +1,7 @@
 {
   "version": 2,
   "source": "Rocamadour Lourdes 2026 - Itinéraire.xlsx",
-  "extracted_at": "2026-06-24",
+  "extracted_at": "2026-07-08",
   "voyage": {
     "nom": "🚗⚡  ROAD TRIP EV 2026",
     "sous_titre": "Monaco → Narbonne → Rocamadour → Lourdes → Rians → Monaco   •   18–26 juin 2026   •   Smart #3 Brabus",
@@ -47,101 +47,101 @@
       "distance_km": {
         "label": "Distance",
         "jours": [
-          438,
-          323,
-          332,
-          616,
-          185
+          435.5,
+          328.2,
+          345.4,
+          591.9,
+          184.6
         ],
-        "total": 1894
+        "total": 1885.6
       },
       "duree_totale": {
         "label": "Durée totale",
         "jours": [
-          "5h41",
-          "4h50",
-          "4h40",
-          "8h17",
-          "2h10"
+          "5h16",
+          "5h25",
+          "4h19",
+          "7h38",
+          "2h11"
         ],
-        "total": null
+        "total": "24h49"
       },
       "conduite": {
         "label": "  dont conduite",
         "jours": [
-          "4h21",
-          "3h30",
-          "3h35",
-          "6h02",
-          "2h10"
+          "4h25",
+          "3h49",
+          "3h52",
+          "6h01",
+          "2h11"
         ],
-        "total": null
+        "total": "20h18"
       },
       "pauses_recharges": {
         "label": "  dont pauses / recharges",
         "jours": [
-          "1h20",
-          "1h20",
-          "1h05",
-          "2h15",
+          "0h51",
+          "1h36",
+          "0h27",
+          "1h37",
           "0h00"
         ],
-        "total": null
+        "total": "4h31"
       },
       "nb_recharges": {
         "label": "Nb recharges",
         "jours": [
+          1,
           2,
+          1,
           2,
-          2,
-          3,
           0
         ],
-        "total": 9
+        "total": 6
       },
       "conso_kwh_par_km": {
-        "label": "Conso prévue (kWh/km)",
+        "label": "Conso réelle (kWh/km)",
         "jours": [
-          0.205,
-          0.186,
-          0.205,
-          0.187,
-          0.205
+          0.19,
+          0.17,
+          0.19,
+          0.2,
+          0.17
         ],
-        "total": 0.205
+        "total": 0.19
       },
       "peages_eur": {
         "label": "Péages",
         "jours": [
-          0,
-          0,
-          0,
-          0,
-          0
+          48.4,
+          30.2,
+          24.4,
+          51.4,
+          20.4
         ],
-        "total": 0
+        "total": 174.8
       },
       "recharges_eur": {
         "label": "Recharges",
         "jours": [
-          0,
-          0,
-          0,
-          0,
-          0
+          29.32,
+          66,
+          41,
+          84.09,
+          22.85
         ],
-        "total": 0
+        "total": 243.26
       },
       "total_eur": {
         "label": "TOTAL JOUR",
         "jours": [
-          0,
-          0,
-          0,
-          0,
-          0
+          77.72,
+          96.2,
+          65.4,
+          135.49,
+          43.25
         ],
-        "total": 0
+        "total": 418.06
       }
     }
   },
@@ -419,5 +419,28 @@
         }
       ]
     }
-  ]
+  ],
+  "costs_defaut": {
+    "0": {
+      "peages": 48.4,
+      "recharges": 29.32
+    },
+    "1": {
+      "peages": 30.2,
+      "recharges": 66
+    },
+    "2": {
+      "peages": 24.4,
+      "recharges": 41
+    },
+    "3": {
+      "peages": 51.4,
+      "recharges": 84.09
+    },
+    "4": {
+      "peages": 20.4,
+      "recharges": 22.85
+    }
+  },
+  "mode": "réel — voyage consolidé (péages confirmés par facture Ulys MF00134279, prélèvement 31/07/2026)"
 }

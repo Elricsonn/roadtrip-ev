@@ -18,7 +18,8 @@ fetch('data.json?v=' + Date.now()).then(r => r.json()).then(data => {
     STATE.data = data;
     const persisted = loadStore();
     STATE.reels   = persisted.reels   || {};
-    STATE.costs   = persisted.costs   || {};
+    // Coûts : saisie locale prioritaire ; sinon seed depuis data.json (coûts réels consolidés du voyage).
+    STATE.costs   = (persisted.costs && Object.keys(persisted.costs).length) ? persisted.costs : (data.costs_defaut || {});
     STATE.skipped = persisted.skipped || {};
     STATE.customs = persisted.customs || {};
     STATE.currentTabId = 'synthese';
