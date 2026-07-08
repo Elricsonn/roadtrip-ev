@@ -17,11 +17,12 @@ const STATE = {
 fetch('data.json?v=' + Date.now()).then(r => r.json()).then(data => {
     STATE.data = data;
     const persisted = loadStore();
-    STATE.reels   = persisted.reels   || {};
-    // Coûts : saisie locale prioritaire ; sinon seed depuis data.json (coûts réels consolidés du voyage).
-    STATE.costs   = (persisted.costs && Object.keys(persisted.costs).length) ? persisted.costs : (data.costs_defaut || {});
-    STATE.skipped = persisted.skipped || {};
-    STATE.customs = persisted.customs || {};
+    // Saisie locale prioritaire ; sinon seed depuis data.json (voyage réel consolidé).
+    const seed = (loc, def) => (loc && Object.keys(loc).length) ? loc : (def || {});
+    STATE.reels   = seed(persisted.reels,   data.reels_defaut);
+    STATE.costs   = seed(persisted.costs,   data.costs_defaut);
+    STATE.skipped = seed(persisted.skipped, data.skipped_defaut);
+    STATE.customs = seed(persisted.customs, data.customs_defaut);
     STATE.currentTabId = 'synthese';
     renderTabs();
     renderCurrent();

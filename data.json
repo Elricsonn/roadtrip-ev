@@ -442,5 +442,154 @@
       "recharges": 22.85
     }
   },
-  "mode": "réel — voyage consolidé (péages confirmés par facture Ulys MF00134279, prélèvement 31/07/2026)"
+  "mode": "réel — voyage consolidé (péages confirmés par facture Ulys MF00134279, prélèvement 31/07/2026)",
+  "reels_defaut": {
+    "j1": {
+      "0": {
+        "charge_depart_reelle": "99",
+        "heure_depart_reelle": "10:25"
+      },
+      "3": {
+        "distance_reelle": "215.7",
+        "heure_arrivee_reelle": "15:41",
+        "charge_arrivee_reelle": "24"
+      },
+      "c-mqjdndwe": {
+        "distance_reelle": "219.8",
+        "heure_arrivee_reelle": "12:49",
+        "charge_arrivee_reelle": "37",
+        "heure_depart_reelle": "13:40",
+        "charge_depart_reelle": "93"
+      }
+    },
+    "j2": {
+      "0": {
+        "heure_depart_reelle": "10:20",
+        "charge_depart_reelle": "97"
+      },
+      "2": {
+        "heure_arrivee_reelle": "13:55",
+        "distance_reelle": "61.4",
+        "charge_arrivee_reelle": "63",
+        "heure_depart_reelle": "14:41",
+        "charge_depart_reelle": "96"
+      },
+      "3": {
+        "charge_arrivee_reelle": "90",
+        "heure_arrivee_reelle": "15:45",
+        "distance_reelle": "37"
+      },
+      "c-mqkshdi3": {
+        "distance_reelle": "229.8",
+        "heure_arrivee_reelle": "12:32",
+        "charge_arrivee_reelle": "32",
+        "heure_depart_reelle": "13:22",
+        "charge_depart_reelle": "82"
+      }
+    },
+    "j3": {
+      "0": {
+        "heure_depart_reelle": "09:59",
+        "charge_depart_reelle": "98"
+      },
+      "2": {
+        "distance_reelle": "139.4",
+        "heure_arrivee_reelle": "14:18",
+        "charge_arrivee_reelle": "41"
+      },
+      "c-mqp2wfkx": {
+        "heure_arrivee_reelle": "12:21",
+        "charge_arrivee_reelle": "39",
+        "distance_reelle": "206",
+        "charge_depart_reelle": "86",
+        "heure_depart_reelle": "12:48"
+      }
+    },
+    "j4": {
+      "0": {
+        "heure_depart_reelle": "08:49",
+        "charge_depart_reelle": "92"
+      },
+      "1": {
+        "heure_arrivee_reelle": "11:00",
+        "charge_arrivee_reelle": "25",
+        "distance_reelle": "208.3",
+        "charge_depart_reelle": "99",
+        "heure_depart_reelle": "12:09"
+      },
+      "4": {
+        "distance_reelle": "199.2",
+        "heure_arrivee_reelle": "16:27",
+        "charge_arrivee_reelle": "23"
+      },
+      "c-mqtfq23w": {
+        "heure_arrivee_reelle": "13:44",
+        "charge_arrivee_reelle": "32",
+        "distance_reelle": "184.4",
+        "charge_depart_reelle": "83",
+        "heure_depart_reelle": "14:12"
+      }
+    },
+    "j5": {
+      "0": {
+        "heure_depart_reelle": "17:56",
+        "charge_depart_reelle": "91"
+      },
+      "1": {
+        "distance_reelle": "184.6",
+        "heure_arrivee_reelle": "20:07",
+        "charge_arrivee_reelle": "39"
+      }
+    }
+  },
+  "skipped_defaut": {
+    "j1": {
+      "1": true,
+      "2": true
+    },
+    "j2": {
+      "1": true
+    },
+    "j3": {
+      "1": true
+    },
+    "j4": {
+      "2": true,
+      "3": true
+    }
+  },
+  "customs_defaut": {
+    "j1": [
+      {
+        "id": "c-mqjdndwe",
+        "after": 1,
+        "lieu": "Lançon de provence",
+        "action": "⚡ Recharge repas"
+      }
+    ],
+    "j2": [
+      {
+        "id": "c-mqkshdi3",
+        "after": 0,
+        "lieu": "Aire au nom inconnu",
+        "action": "⚡ Recharge et repas"
+      }
+    ],
+    "j3": [
+      {
+        "id": "c-mqp2wfkx",
+        "after": 1,
+        "lieu": "aire inconnue",
+        "action": "⚡ Recharge repas"
+      }
+    ],
+    "j4": [
+      {
+        "id": "c-mqtfq23w",
+        "after": 2,
+        "lieu": "je sais quoi",
+        "action": "⚡ Recharge"
+      }
+    ]
+  }
 }
