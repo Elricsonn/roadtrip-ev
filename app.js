@@ -14,20 +14,41 @@ const STATE = {
 };
 
 // === Chargement initial ===
-fetch('data.json?v=' + Date.now()).then(r => r.json()).then(data => {
-    STATE.data = data;
-    const persisted = loadStore();
-    // Saisie locale prioritaire ; sinon seed depuis data.json (voyage réel consolidé).
-    const seed = (loc, def) => (loc && Object.keys(loc).length) ? loc : (def || {});
-    STATE.reels   = seed(persisted.reels,   data.reels_defaut);
-    STATE.costs   = seed(persisted.costs,   data.costs_defaut);
-    STATE.skipped = seed(persisted.skipped, data.skipped_defaut);
-    STATE.customs = seed(persisted.customs, data.customs_defaut);
-    STATE.currentTabId = 'synthese';
-    renderTabs();
-    renderCurrent();
-    bindFooter();
-});
+// Pas de `?v=' + Date.now()` : une URL unique à chaque chargement empêche
+// le service worker de retrouver la réponse en cache, donc casse le mode
+// hors ligne. Incrémenter DATA_VERSION à la main quand data.json change.
+const DATA_VERSION = '2';
+
+fetch('data.json?v=' + DATA_VERSION)
+    .then(r => {
+        if (!r.ok) throw new Error('data.json — HTTP ' + r.status);
+        return r.json();
+    })
+    .then(data => {
+        STATE.data = data;
+        const persisted = loadStore();
+        // Saisie locale prioritaire ; sinon seed depuis data.json (voyage réel consolidé).
+        const seed = (loc, def) => (loc && Object.keys(loc).length) ? loc : (def || {});
+        STATE.reels   = seed(persisted.reels,   data.reels_defaut);
+        STATE.costs   = seed(persisted.costs,   data.costs_defaut);
+        STATE.skipped = seed(persisted.skipped, data.skipped_defaut);
+        STATE.customs = seed(persisted.customs, data.customs_defaut);
+        STATE.currentTabId = 'synthese';
+        renderTabs();
+        renderCurrent();
+        bindFooter();
+    })
+    .catch(err => {
+        // Sans ce garde-fou, un data.json inaccessible laissait un écran vide
+        // et muet : aucun message, aucune trace.
+        console.error(err);
+        const main = document.querySelector('.content');
+        if (main) {
+            main.innerHTML = '<p style="padding:2rem 0;color:#999;text-align:center;line-height:1.6">' +
+                'Les données du voyage n\'ont pas pu être chargées.<br>' +
+                'Vérifiez la connexion, puis rechargez la page.</p>';
+        }
+    });
 
 // === LocalStorage ===
 function loadStore() {
@@ -468,11 +489,19 @@ function parseHHMM(s) {
     if (isNaN(h) || isNaN(mn)) return null;
     return h * 60 + mn;
 }
+// Formate une DURÉE en minutes → « 2h05 ».
 function fmtDuree(mn) {
     if (mn == null || mn < 0) return null;
     const h = Math.floor(mn / 60);
     const m = mn % 60;
     return `${h}h${String(m).padStart(2, '0')}`;
+}
+// Formate une HEURE en minutes depuis minuit → « 01h10 » après minuit,
+// là où fmtDuree affichait « 25h10 ».
+function fmtHeure(mn) {
+    if (mn == null) return null;
+    const t = ((mn % 1440) + 1440) % 1440;
+    return `${String(Math.floor(t / 60)).padStart(2, '0')}h${String(t % 60).padStart(2, '0')}`;
 }
 function computeDureeTrajet(tripId, list, pos) {
     const prevKey = prevActiveKey(tripId, list, pos);
@@ -480,13 +509,15 @@ function computeDureeTrajet(tripId, list, pos) {
     const arr = parseHHMM(getReel(tripId, list[pos].key, 'heure_arrivee_reelle'));
     const dep = parseHHMM(getReel(tripId, prevKey, 'heure_depart_reelle'));
     if (arr == null || dep == null) return null;
-    return fmtDuree(arr - dep);
+    // Arrivée après minuit : on repasse par le jour suivant plutôt que
+    // de renvoyer une durée négative, qui s'affichait « — ».
+    return fmtDuree(arr < dep ? arr + 1440 - dep : arr - dep);
 }
 function computeDureeAction(tripId, key) {
     const dep = parseHHMM(getReel(tripId, key, 'heure_depart_reelle'));
     const arr = parseHHMM(getReel(tripId, key, 'heure_arrivee_reelle'));
     if (dep == null || arr == null) return null;
-    return fmtDuree(dep - arr);
+    return fmtDuree(dep < arr ? dep + 1440 - arr : dep - arr);
 }
 
 // Recalcule les heures THÉORIQUES (arrivée + départ) de l'étape `pos` en cascade
@@ -511,8 +542,8 @@ function recalcTimes(trip, list, pos) {
         const departMin = (arrMin != null) ? (action != null ? arrMin + action : arrMin) : null;
         if (i === pos) {
             return {
-                arrivee: arrMin != null ? fmtDuree(arrMin) : null,
-                depart: (hasReal && departMin != null) ? fmtDuree(departMin) : null,
+                arrivee: arrMin != null ? fmtHeure(arrMin) : null,
+                depart: (hasReal && departMin != null) ? fmtHeure(departMin) : null,
             };
         }
         const rd = parseHHMM(getReel(trip.id, item.key, 'heure_depart_reelle'));

@@ -9,6 +9,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Road Trip EV</title>
+<meta name="description" content="Pilotage en temps réel d'un road trip en voiture électrique : conso, autonomie, écart au théorique.">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -74,5 +76,15 @@
 </main>
 
 <script src="app.js?v=2"></script>
+<script>
+/* Enregistrement du service worker — sans lui, l'app ne fonctionne pas
+   hors ligne, ce que le README promet pourtant. */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .catch((err) => console.warn('Service worker non enregistré — pas de mode hors ligne :', err));
+  });
+}
+</script>
 </body>
 </html>

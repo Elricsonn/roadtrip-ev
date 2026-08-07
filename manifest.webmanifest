@@ -1,14 +1,14 @@
 {
   "name": "Road Trip EV",
-  "short_name": "Road Trip EV",
-  "description": "Pilotage live d'un road trip électrique : saisie réelle à chaque étape, KPIs conso et autonomie en temps réel.",
+  "short_name": "Road Trip",
+  "description": "Pilotage en temps réel d'un road trip en voiture électrique : conso, autonomie, écart au théorique.",
+  "lang": "fr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
-  "lang": "fr",
   "icons": [
     {
       "src": "icon-192.png",
@@ -20,7 +20,13 @@
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
