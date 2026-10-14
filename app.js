@@ -28,6 +28,9 @@ fetch('data.json?v=' + DATA_VERSION)
     .then(data => {
         STATE.data = data;
         if (data.voyage && data.voyage.cle) STORAGE_KEY = 'roadtrip-ev-' + data.voyage.cle;
+        // Saisies du voyage de juin 2026 (ancienne clé unique) : consolidées dans le classeur
+        // Excel et l'export du 26/06 (10.05.03), et dans l'étiquette Git voyage-rocamadour-lourdes-2026.
+        try { if (STORAGE_KEY !== 'roadtrip-ev-v2') localStorage.removeItem('roadtrip-ev-v2'); } catch (e) {}
         const persisted = loadStore();
         // Saisie locale prioritaire ; sinon seed depuis data.json (voyage réel consolidé).
         const seed = (loc, def) => (loc && Object.keys(loc).length) ? loc : (def || {});

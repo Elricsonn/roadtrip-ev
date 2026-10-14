@@ -6,7 +6,7 @@
    À chaque modification d'un fichier listé, incrémenter VERSION —
    sinon les anciens fichiers restent servis depuis le cache. */
 
-const VERSION = 'roadtrip-ev-v2';
+const VERSION = 'roadtrip-ev-v3';
 /* Pas de './' ici : c'est la même ressource que './index.html', et si
    l'hébergeur ne la sert pas, addAll échoue en bloc et le worker ne
    s'installe jamais — le hors ligne meurt en silence. */
