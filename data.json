@@ -1,12 +1,13 @@
 {
-  "version": 2,
-  "source": "Rocamadour Lourdes 2026 - Itinéraire.xlsx",
-  "extracted_at": "2026-07-08",
+  "version": 3,
+  "source": "Saisi par Claude Code le 2026-10-14 d'après le retour réel Rians → Monaco du 26/06/2026 (185 km, 17,5 kWh/100) — pas de classeur Excel pour ce séjour",
+  "extracted_at": "2026-10-14",
   "voyage": {
-    "nom": "🚗⚡  ROAD TRIP EV 2026",
-    "sous_titre": "Monaco → Narbonne → Rocamadour → Lourdes → Rians → Monaco   •   18–26 juin 2026   •   Smart #3 Brabus",
+    "cle": "margottiere-2026-10",
+    "nom": "🚗⚡  LA MARGOTTIÈRE — OCTOBRE 2026",
+    "sous_titre": "Monaco → La Margottière (Rians) → Monaco   •   15–18 octobre 2026   •   Smart #3 Brabus",
     "voiture": "Smart #3 Brabus",
-    "dates": "Juin 2026"
+    "dates": "Octobre 2026"
   },
   "voiture": {
     "modele": "Smart #3 Brabus",
@@ -16,142 +17,106 @@
   "synthese": {
     "day_labels": [
       "J1",
-      "J2",
-      "J3",
-      "J4",
-      "J5"
+      "J2"
     ],
     "lignes": {
       "date": {
         "label": "Date",
         "jours": [
-          "jeu. 18 juin",
-          "ven. 19 juin",
-          "lun. 22 juin",
-          "jeu. 25 juin",
-          "ven. 26 juin"
+          "jeu. 15 oct.",
+          "dim. 18 oct."
         ],
-        "total": "5 jours"
+        "total": "2 trajets"
       },
       "trajet": {
         "label": "Trajet",
         "jours": [
-          "Monaco\n→ Narbonne",
-          "Narbonne\n→ Rocamadour",
-          "Rocamadour\n→ Lourdes",
-          "Lourdes\n→ Rians",
-          "Rians\n→ Monaco"
+          "Monaco\n→ La Margottière",
+          "La Margottière\n→ Monaco"
         ],
-        "total": "Boucle\nMonaco → Monaco"
+        "total": "Aller-retour"
       },
       "distance_km": {
         "label": "Distance",
         "jours": [
-          435.5,
-          328.2,
-          345.4,
-          591.9,
-          184.6
+          185,
+          185
         ],
-        "total": 1885.6
+        "total": 370
       },
       "duree_totale": {
         "label": "Durée totale",
         "jours": [
-          "5h16",
-          "5h25",
-          "4h19",
-          "7h38",
-          "2h11"
+          "2h10",
+          "2h10"
         ],
-        "total": "24h49"
+        "total": "4h20"
       },
       "conduite": {
         "label": "  dont conduite",
         "jours": [
-          "4h25",
-          "3h49",
-          "3h52",
-          "6h01",
-          "2h11"
+          "2h10",
+          "2h10"
         ],
-        "total": "20h18"
+        "total": "4h20"
       },
       "pauses_recharges": {
         "label": "  dont pauses / recharges",
         "jours": [
-          "0h51",
-          "1h36",
-          "0h27",
-          "1h37",
+          "0h00",
           "0h00"
         ],
-        "total": "4h31"
+        "total": "0h00"
       },
       "nb_recharges": {
         "label": "Nb recharges",
         "jours": [
-          1,
-          2,
-          1,
-          2,
+          0,
           0
         ],
-        "total": 6
+        "total": 0
       },
       "conso_kwh_par_km": {
         "label": "Conso réelle (kWh/km)",
         "jours": [
-          0.19,
-          0.17,
-          0.19,
-          0.2,
-          0.17
+          0.175,
+          0.175
         ],
-        "total": 0.19
+        "total": 0.175
       },
       "peages_eur": {
         "label": "Péages",
         "jours": [
-          48.4,
-          30.2,
-          24.4,
-          51.4,
-          20.4
+          null,
+          null
         ],
-        "total": 174.8
+        "total": null
       },
       "recharges_eur": {
         "label": "Recharges",
         "jours": [
-          29.32,
-          66,
-          41,
-          84.09,
-          22.85
+          null,
+          null
         ],
-        "total": 243.26
+        "total": null
       },
       "total_eur": {
         "label": "TOTAL JOUR",
         "jours": [
-          77.72,
-          96.2,
-          65.4,
-          135.49,
-          43.25
+          null,
+          null
         ],
-        "total": 418.06
+        "total": null
       }
     }
   },
   "trajets": [
     {
       "id": "j1",
-      "titre": "Jour 1 — Monaco → Narbonne",
-      "sous_titre": "Novotel Narbonne Sud",
-      "feuille_excel": "Monaco-->Narbonne",
-      "conso_jour": 0.205,
+      "titre": "Jour 1 — Monaco → La Margottière",
+      "sous_titre": "Rians — chez Isa et Titi",
+      "feuille_excel": "Monaco-->Rians",
+      "conso_jour": 0.175,
       "etapes": [
         {
           "lieu": "Monaco",
@@ -162,40 +127,16 @@
           "charge_arrivee_prevue": "—",
           "action": "Départ",
           "duree_action_prevue": "—",
-          "heure_depart_prevue": "10h00",
+          "heure_depart_prevue": "10h30",
           "charge_depart_prevue": 1
         },
         {
-          "lieu": "Aire de Cambarette Nord",
-          "distance_prevue": 147,
-          "duree_prevue": "1h30",
-          "cumul_prevu": 147,
-          "heure_arrivee_prevue": "11h30",
-          "charge_arrivee_prevue": 0.5139516129032258,
-          "action": "Déjeuner + ⚡",
-          "duree_action_prevue": "1h00",
-          "heure_depart_prevue": "12h30",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire d'Ambrussum Nord A9",
-          "distance_prevue": 173,
-          "duree_prevue": "1h41",
-          "cumul_prevu": 320,
-          "heure_arrivee_prevue": "14h11",
-          "charge_arrivee_prevue": 0.42798387096774204,
-          "action": "⚡",
-          "duree_action_prevue": "0h20",
-          "heure_depart_prevue": "14h31",
-          "charge_depart_prevue": 0.8
-        },
-        {
-          "lieu": "Novotel Narbonne Sud A9/A61",
-          "distance_prevue": 118,
-          "duree_prevue": "1h10",
-          "cumul_prevu": 438,
-          "heure_arrivee_prevue": "15h41",
-          "charge_arrivee_prevue": 0.4098387096774194,
+          "lieu": "La Margottière chez Isa et Titi",
+          "distance_prevue": 185,
+          "duree_prevue": "2h10",
+          "cumul_prevu": 185,
+          "heure_arrivee_prevue": "12h40",
+          "charge_arrivee_prevue": 0.4778,
           "action": "Fin de trajet",
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
@@ -205,193 +146,10 @@
     },
     {
       "id": "j2",
-      "titre": "Jour 2 — Narbonne → Rocamadour",
-      "sous_titre": "Hôtel les Vieilles Tours",
-      "feuille_excel": "Narbonne-->Rocamadour",
-      "conso_jour": 0.186,
-      "etapes": [
-        {
-          "lieu": "Novotel Narbonne Sud A9/A61",
-          "distance_prevue": 0,
-          "duree_prevue": "—",
-          "cumul_prevu": 0,
-          "heure_arrivee_prevue": "—",
-          "charge_arrivee_prevue": "—",
-          "action": "Départ",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "10h00",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire de Port- Lauragais Nord",
-          "distance_prevue": 115,
-          "duree_prevue": "1h00",
-          "cumul_prevu": 115,
-          "heure_arrivee_prevue": "11h00",
-          "charge_arrivee_prevue": 0.655,
-          "action": "⚡",
-          "duree_action_prevue": "0h20",
-          "heure_depart_prevue": "11h20",
-          "charge_depart_prevue": 0.8
-        },
-        {
-          "lieu": "Aire du Jardin des Causses",
-          "distance_prevue": 178,
-          "duree_prevue": "1h50",
-          "cumul_prevu": 293,
-          "heure_arrivee_prevue": "13h10",
-          "charge_arrivee_prevue": 0.266,
-          "action": "Repas + ⚡",
-          "duree_action_prevue": "1h00",
-          "heure_depart_prevue": "14h10",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Hôtel les Vieilles Tours Lafage, Rocamadour",
-          "distance_prevue": 30,
-          "duree_prevue": "0h40",
-          "cumul_prevu": 323,
-          "heure_arrivee_prevue": "14h50",
-          "charge_arrivee_prevue": 0.91,
-          "action": "Fin de trajet",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "—",
-          "charge_depart_prevue": null
-        }
-      ]
-    },
-    {
-      "id": "j3",
-      "titre": "Jour 3 — Rocamadour → Lourdes",
-      "sous_titre": "Belfry & Spa (3 nuits)",
-      "feuille_excel": "Rocamadour-->Lourdes",
-      "conso_jour": 0.205,
-      "etapes": [
-        {
-          "lieu": "Hôtel les Vieilles Tours Lafage, Rocamadour",
-          "distance_prevue": 0,
-          "duree_prevue": "—",
-          "cumul_prevu": 0,
-          "heure_arrivee_prevue": "—",
-          "charge_arrivee_prevue": "—",
-          "action": "Départ",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "9h00",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire de Toulouse- Sud (Muret)",
-          "distance_prevue": 161,
-          "duree_prevue": "1h40",
-          "cumul_prevu": 161,
-          "heure_arrivee_prevue": "10h40",
-          "charge_arrivee_prevue": 0.46766129032258075,
-          "action": "Déjeuner + ⚡",
-          "duree_action_prevue": "0h45",
-          "heure_depart_prevue": "11h25",
-          "charge_depart_prevue": 0.9
-        },
-        {
-          "lieu": "Aire de Capvern",
-          "distance_prevue": 120,
-          "duree_prevue": "1h15",
-          "cumul_prevu": 281,
-          "heure_arrivee_prevue": "12h40",
-          "charge_arrivee_prevue": 0.503225806451613,
-          "action": "⚡",
-          "duree_action_prevue": "0h20",
-          "heure_depart_prevue": "13h00",
-          "charge_depart_prevue": 0.8
-        },
-        {
-          "lieu": "Belfry & Spa by Ligne St Barth",
-          "distance_prevue": 51,
-          "duree_prevue": "0h40",
-          "cumul_prevu": 332,
-          "heure_arrivee_prevue": "13h40",
-          "charge_arrivee_prevue": 0.6313709677419355,
-          "action": "Fin de trajet",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "—",
-          "charge_depart_prevue": null
-        }
-      ]
-    },
-    {
-      "id": "j4",
-      "titre": "Jour 4 — Lourdes → Rians",
-      "sous_titre": "La Margottière (Isa & Titi)",
-      "feuille_excel": "Lourdes-->Rians",
-      "conso_jour": 0.187,
-      "etapes": [
-        {
-          "lieu": "Belfry & Spa by Ligne St Barth",
-          "distance_prevue": 0,
-          "duree_prevue": "—",
-          "cumul_prevu": 0,
-          "heure_arrivee_prevue": "—",
-          "charge_arrivee_prevue": "—",
-          "action": "Départ",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "9h30",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire de Port- Lauragais Sud",
-          "distance_prevue": 215,
-          "duree_prevue": "2h07",
-          "cumul_prevu": 215,
-          "heure_arrivee_prevue": "11h37",
-          "charge_arrivee_prevue": 0.35153225806451616,
-          "action": "Déjeuner + ⚡",
-          "duree_action_prevue": "1h00",
-          "heure_depart_prevue": "12h37",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire de Narbonne Vinassan Sud",
-          "distance_prevue": 116,
-          "duree_prevue": "1h00",
-          "cumul_prevu": 331,
-          "heure_arrivee_prevue": "13h37",
-          "charge_arrivee_prevue": 0.6501290322580645,
-          "action": "⚡",
-          "duree_action_prevue": "0h40",
-          "heure_depart_prevue": "14h17",
-          "charge_depart_prevue": 1
-        },
-        {
-          "lieu": "Aire de Lançon- de-Provence",
-          "distance_prevue": 205,
-          "duree_prevue": "1h55",
-          "cumul_prevu": 536,
-          "heure_arrivee_prevue": "16h12",
-          "charge_arrivee_prevue": 0.3816935483870968,
-          "action": "Goûter + ⚡",
-          "duree_action_prevue": "0h35",
-          "heure_depart_prevue": "16h47",
-          "charge_depart_prevue": 0.8
-        },
-        {
-          "lieu": "La Margottière chez Isa et Titi",
-          "distance_prevue": 80,
-          "duree_prevue": "1h00",
-          "cumul_prevu": 616,
-          "heure_arrivee_prevue": "17h47",
-          "charge_arrivee_prevue": 0.5587096774193548,
-          "action": "Fin de trajet",
-          "duree_action_prevue": "—",
-          "heure_depart_prevue": "—",
-          "charge_depart_prevue": null
-        }
-      ]
-    },
-    {
-      "id": "j5",
-      "titre": "Jour 5 — Rians → Monaco",
+      "titre": "Jour 2 — La Margottière → Monaco",
       "sous_titre": "Retour Monaco",
       "feuille_excel": "Rians-->Monaco",
-      "conso_jour": 0.205,
+      "conso_jour": 0.175,
       "etapes": [
         {
           "lieu": "La Margottière chez Isa et Titi",
@@ -400,18 +158,18 @@
           "cumul_prevu": 0,
           "heure_arrivee_prevue": "—",
           "charge_arrivee_prevue": "—",
-          "action": "Départ",
+          "action": "Départ (après recharge à la borne du village, rue du Lavoir Neuf)",
           "duree_action_prevue": "—",
-          "heure_depart_prevue": "21h00",
-          "charge_depart_prevue": 1
+          "heure_depart_prevue": "18h00",
+          "charge_depart_prevue": 0.9
         },
         {
           "lieu": "Monaco",
           "distance_prevue": 185,
           "duree_prevue": "2h10",
           "cumul_prevu": 185,
-          "heure_arrivee_prevue": "23h10",
-          "charge_arrivee_prevue": 0.3883064516129032,
+          "heure_arrivee_prevue": "20h10",
+          "charge_arrivee_prevue": 0.3778,
           "action": "Fin de trajet",
           "duree_action_prevue": "—",
           "heure_depart_prevue": "—",
@@ -420,176 +178,9 @@
       ]
     }
   ],
-  "costs_defaut": {
-    "0": {
-      "peages": 48.4,
-      "recharges": 29.32
-    },
-    "1": {
-      "peages": 30.2,
-      "recharges": 66
-    },
-    "2": {
-      "peages": 24.4,
-      "recharges": 41
-    },
-    "3": {
-      "peages": 51.4,
-      "recharges": 84.09
-    },
-    "4": {
-      "peages": 20.4,
-      "recharges": 22.85
-    }
-  },
-  "mode": "réel — voyage consolidé (péages confirmés par facture Ulys MF00134279, prélèvement 31/07/2026)",
-  "reels_defaut": {
-    "j1": {
-      "0": {
-        "charge_depart_reelle": "99",
-        "heure_depart_reelle": "10:25"
-      },
-      "3": {
-        "distance_reelle": "215.7",
-        "heure_arrivee_reelle": "15:41",
-        "charge_arrivee_reelle": "24"
-      },
-      "c-mqjdndwe": {
-        "distance_reelle": "219.8",
-        "heure_arrivee_reelle": "12:49",
-        "charge_arrivee_reelle": "37",
-        "heure_depart_reelle": "13:40",
-        "charge_depart_reelle": "93"
-      }
-    },
-    "j2": {
-      "0": {
-        "heure_depart_reelle": "10:20",
-        "charge_depart_reelle": "97"
-      },
-      "2": {
-        "heure_arrivee_reelle": "13:55",
-        "distance_reelle": "61.4",
-        "charge_arrivee_reelle": "63",
-        "heure_depart_reelle": "14:41",
-        "charge_depart_reelle": "96"
-      },
-      "3": {
-        "charge_arrivee_reelle": "90",
-        "heure_arrivee_reelle": "15:45",
-        "distance_reelle": "37"
-      },
-      "c-mqkshdi3": {
-        "distance_reelle": "229.8",
-        "heure_arrivee_reelle": "12:32",
-        "charge_arrivee_reelle": "32",
-        "heure_depart_reelle": "13:22",
-        "charge_depart_reelle": "82"
-      }
-    },
-    "j3": {
-      "0": {
-        "heure_depart_reelle": "09:59",
-        "charge_depart_reelle": "98"
-      },
-      "2": {
-        "distance_reelle": "139.4",
-        "heure_arrivee_reelle": "14:18",
-        "charge_arrivee_reelle": "41"
-      },
-      "c-mqp2wfkx": {
-        "heure_arrivee_reelle": "12:21",
-        "charge_arrivee_reelle": "39",
-        "distance_reelle": "206",
-        "charge_depart_reelle": "86",
-        "heure_depart_reelle": "12:48"
-      }
-    },
-    "j4": {
-      "0": {
-        "heure_depart_reelle": "08:49",
-        "charge_depart_reelle": "92"
-      },
-      "1": {
-        "heure_arrivee_reelle": "11:00",
-        "charge_arrivee_reelle": "25",
-        "distance_reelle": "208.3",
-        "charge_depart_reelle": "99",
-        "heure_depart_reelle": "12:09"
-      },
-      "4": {
-        "distance_reelle": "199.2",
-        "heure_arrivee_reelle": "16:27",
-        "charge_arrivee_reelle": "23"
-      },
-      "c-mqtfq23w": {
-        "heure_arrivee_reelle": "13:44",
-        "charge_arrivee_reelle": "32",
-        "distance_reelle": "184.4",
-        "charge_depart_reelle": "83",
-        "heure_depart_reelle": "14:12"
-      }
-    },
-    "j5": {
-      "0": {
-        "heure_depart_reelle": "17:56",
-        "charge_depart_reelle": "91"
-      },
-      "1": {
-        "distance_reelle": "184.6",
-        "heure_arrivee_reelle": "20:07",
-        "charge_arrivee_reelle": "39"
-      }
-    }
-  },
-  "skipped_defaut": {
-    "j1": {
-      "1": true,
-      "2": true
-    },
-    "j2": {
-      "1": true
-    },
-    "j3": {
-      "1": true
-    },
-    "j4": {
-      "2": true,
-      "3": true
-    }
-  },
-  "customs_defaut": {
-    "j1": [
-      {
-        "id": "c-mqjdndwe",
-        "after": 1,
-        "lieu": "Lançon de provence",
-        "action": "⚡ Recharge repas"
-      }
-    ],
-    "j2": [
-      {
-        "id": "c-mqkshdi3",
-        "after": 0,
-        "lieu": "Aire au nom inconnu",
-        "action": "⚡ Recharge et repas"
-      }
-    ],
-    "j3": [
-      {
-        "id": "c-mqp2wfkx",
-        "after": 1,
-        "lieu": "aire inconnue",
-        "action": "⚡ Recharge repas"
-      }
-    ],
-    "j4": [
-      {
-        "id": "c-mqtfq23w",
-        "after": 2,
-        "lieu": "je sais quoi",
-        "action": "⚡ Recharge"
-      }
-    ]
-  }
+  "costs_defaut": {},
+  "mode": "prévisionnel — séjour La Margottière, octobre 2026",
+  "reels_defaut": {},
+  "skipped_defaut": {},
+  "customs_defaut": {}
 }

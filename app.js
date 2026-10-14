@@ -3,7 +3,8 @@
 // coûts Péages/Recharges/Total). L7 et L16 dérivées des heures saisies.
 // Étapes : skip (toggle) + insertion d'étapes custom (recharge imprévue, pause…).
 
-const STORAGE_KEY = 'roadtrip-ev-v2';
+// Une clé par voyage (data.voyage.cle) : les saisies d'un voyage ne débordent pas sur le suivant.
+let STORAGE_KEY = 'roadtrip-ev-v2';
 const STATE = {
     data: null,
     currentTabId: null,
@@ -17,7 +18,7 @@ const STATE = {
 // Pas de `?v=' + Date.now()` : une URL unique à chaque chargement empêche
 // le service worker de retrouver la réponse en cache, donc casse le mode
 // hors ligne. Incrémenter DATA_VERSION à la main quand data.json change.
-const DATA_VERSION = '2';
+const DATA_VERSION = '3';
 
 fetch('data.json?v=' + DATA_VERSION)
     .then(r => {
@@ -26,6 +27,7 @@ fetch('data.json?v=' + DATA_VERSION)
     })
     .then(data => {
         STATE.data = data;
+        if (data.voyage && data.voyage.cle) STORAGE_KEY = 'roadtrip-ev-' + data.voyage.cle;
         const persisted = loadStore();
         // Saisie locale prioritaire ; sinon seed depuis data.json (voyage réel consolidé).
         const seed = (loc, def) => (loc && Object.keys(loc).length) ? loc : (def || {});

@@ -7,7 +7,9 @@ Web app PWA mobile-first pour piloter en temps réel un road trip en voiture él
 **Concept** : pré-rempli avec les prévisions du voyage (étapes, distances, durées, charges batterie), saisie ultra-rapide des valeurs réelles à chaque arrêt, calculs live de la conso (kWh/100 km), de l'autonomie projetée et de l'écart vs théorique. Fonctionne offline une fois chargée. Export JSON des données saisies pour réinjection dans le classeur Excel canonique au retour.
 
 ## Voyage actuel
-Smart #3 Brabus (62 kWh, théorique 0,205 kWh/km) — juin 2026 : Monaco → Narbonne → Rocamadour → Lourdes (3 nuits) → Rians → Monaco. Référence : Monaco↔Draguignan (déjà mesuré).
+Smart #3 Brabus (62 kWh) — **La Margottière, octobre 2026** : Monaco → La Margottière (Rians) le 15/10, retour le 18/10, 185 km chaque sens, conso prévue 0,175 kWh/km (retour réel du 26/06/2026). Saisies stockées sous une clé propre au voyage (`data.voyage.cle`).
+
+Voyage précédent (Rocamadour → Lourdes, juin 2026, consolidé) : étiquette Git `voyage-rocamadour-lourdes-2026`.
 
 ## Installation sur iPhone
 1. Ouvrir l'URL dans Safari iPhone
